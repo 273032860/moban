@@ -1,0 +1,1981 @@
+{
+  "id": 1,
+  "parentId": -1,
+  "label": "snippets",
+  "lastId": 159,
+  "children": [
+    {
+      "id": 8,
+      "parentId": 1,
+      "label": "yarn add",
+      "folder": true,
+      "children": [
+        {
+          "id": 9,
+          "parentId": 8,
+          "label": "颜色选择器",
+          "value": "yarn add react-color",
+          "children": []
+        },
+        {
+          "id": 10,
+          "parentId": 8,
+          "label": "three.js_fiber_drei",
+          "value": "yarn add three @react-three/fiber @react-three/drei",
+          "children": []
+        },
+        {
+          "id": 162,
+          "parentId": 8,
+          "label": "yarn 更新",
+          "value": "yarn upgrade",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "parentId": 1,
+      "label": "react",
+      "folder": true,
+      "children": [
+        {
+          "id": 4,
+          "parentId": 2,
+          "label": "three.js",
+          "folder": true,
+          "children": [
+            {
+              "id": 7,
+              "parentId": 4,
+              "label": "初始环境",
+              "value": "import React, { Suspense, useLayoutEffect, useEffect, useMemo, useRef, useState } from 'react'\nimport { Canvas,useThree, extend, useFrame } from '@react-three/fiber'\nimport { OrbitControls, Box,shaderMaterial } from '@react-three/drei'\nimport * as THREE from 'three'\n\nexport default function Threedraw () {\n  return (\n    <>\n      <Canvas className='h-full'>\n        <OrbitControls />\n        <primitive object={new THREE.AxesHelper(10)} />\n        <primitive object={new THREE.GridHelper(100, 100)} />\n        <ambientLight intensity={3.5} />\n        <Box args={[2, 2, 2]}></Box>\n      </Canvas>\n    </>\n  )\n}",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 99,
+              "parentId": 4,
+              "label": "内置几何",
+              "value": "https://threejs.org/manual/#zh/primitives",
+              "children": []
+            },
+            {
+              "id": 151,
+              "parentId": 4,
+              "label": "useFrame",
+              "value": "useFrame(() => {\n\n})",
+              "children": []
+            },
+            {
+              "id": 167,
+              "parentId": 4,
+              "label": "GLSL",
+              "folder": true,
+              "children": []
+            },
+            {
+              "id": 136,
+              "parentId": 4,
+              "label": "geometry",
+              "folder": true,
+              "children": [
+                {
+                  "id": 124,
+                  "parentId": 136,
+                  "label": "二次贝塞尔线",
+                  "value": "import React, { useRef } from 'react'\nimport { useFrame } from '@react-three/fiber'\nimport { QuadraticBezierLine } from '@react-three/drei'\nimport * as THREE from 'three'\n\nexport default function Lines () {\n  const ref1 = useRef()\n  useFrame((state) => {\n    ref1.current.setPoints(\n      [0, 0, 0],\n      [10, 5, 10],\n      // [5, 0, 0] // Optional: mid-point\n    )\n\n    //两个目标连线\n    //  ref.current.setPoints(start.current.getWorldPosition(new THREE.Vector3()), end.current.getWorldPosition(new THREE.Vector3())), []\n  }, [])\n\n  return (\n    <>\n      <QuadraticBezierLine ref={ref1} lineWidth={3} color=\"#fb00e6\"\n      // start={[0, 0, 0]}               // 起点，可以是阵列或vec3\n      // end={[10, 5, 10]}               // 终点，可以是阵列或vec3\n      // mid={[4, 0, 5]}                 // 可选控制点，可以是阵列或VEC3\n      />\n    </>\n  )\n}",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 137,
+                  "parentId": 136,
+                  "label": "克隆",
+                  "value": "<Clone object={nodes.table} inject={<meshStandardMaterial color=\"green\" />} />",
+                  "children": []
+                },
+                {
+                  "id": 132,
+                  "parentId": 136,
+                  "label": "克隆_gltf",
+                  "value": "<Gltf src=\"/RobotExpressive.glb\" receiveShadow castShadow position={[10, 0, 0]} />\n      <Gltf src=\"/RobotExpressive.glb\" receiveShadow castShadow position={[-10, 0, 0]} />\n      <Gltf src=\"/RobotExpressive.glb\" receiveShadow castShadow />",
+                  "children": []
+                },
+                {
+                  "id": 129,
+                  "parentId": 136,
+                  "label": "融球",
+                  "value": "import React, { useEffect, useRef } from 'react'\nimport { useFrame, useLoader } from '@react-three/fiber'\nimport { MarchingCubes, MarchingCube, MarchingPlane } from '@react-three/drei'\nimport * as THREE from 'three'\nimport { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'\n\nexport default function Test2 () {\n  const cubeRefOne = useRef()\n  const cubeRefOne1 = useRef()\n  useFrame(({ clock }) => {\n    const time = clock.getElapsedTime()\n    cubeRefOne.current.position.set(0.5, Math.sin(time * 1.1) * 0.5 - 0.5, 0.5)\n    cubeRefOne1.current.position.set(0.5, Math.sin(time * 1.4) * 0.5, 0.5)\n  })\n\n  const texture = useLoader(RGBELoader, \"/dam_wall_2k.hdr\")\n\n  return (\n    <>\n      <MarchingCubes //场景盒子\n        resolution={100} maxPolyCount={100000} enableUvs={true} enableColors={true}\n        color={'#ffffff'}\n      >\n        <MarchingCube  //融球\n          ref={cubeRefOne}\n          strength={0.5} //缩放\n          subtract={12} //多少距离 影响材质显示,如果是0，此材质覆盖全部\n          position={[3.5, 0.5, 0.5]}\n          castShadow\n          color={new THREE.Color('rgb(255, 0, 0)')} //单独顶点色\n        />\n        <MarchingCube ref={cubeRefOne1}\n          strength={0.5}\n          subtract={12}//影响材质显示\n          position={[3.5, 0.5, 0.5]}\n          castShadow\n          color={new THREE.Color('rgb(255, 225, 0)')}\n        />\n\n        <MarchingPlane //限制板，碰到板消失\n          planeType=\"y\" //还有x z\n          strength={0.5} //y的高度\n          subtract={10}\n\n        />\n        <meshStandardMaterial //材质\n          shininess={2} map={texture} vertexColors />\n      </MarchingCubes>\n    </>\n  )\n}",
+                  "children": []
+                },
+                {
+                  "id": 133,
+                  "parentId": 136,
+                  "label": "环线LineLoop",
+                  "value": "  const curve = React.useMemo( //点构成的曲线\n    () => new THREE.CatmullRomCurve3([\n      new THREE.Vector3(10, 0, -10),\n      new THREE.Vector3(10, 0, 10),\n      new THREE.Vector3(-10, 0, 10),\n      new THREE.Vector3(-10, 0, -10)\n    ], true, 'centripetal'), [])\n\n  const line = React.useMemo(//曲线添加到环线LineLoop\n    () =>\n      new THREE.LineLoop(\n        new THREE.BufferGeometry().setFromPoints(curve.getPoints(50)), //buffer\n        new THREE.LineBasicMaterial({ color: 0x00ff00 })),//材质\n    []\n  )\n  {/* //显示曲线 */}\n  <primitive object={line} />",
+                  "children": [
+                    
+                      ]
+                    },
+                    {
+                      "id": 135,
+                      "parentId": 133,
+                      "label": "-n~n区间来回",
+                      "value": "import \\* as random from 'maath/random'",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 135,
+                  "parentId": 136,
+                  "label": "曲线",
+                  "value": "<CatmullRomLine\n        points={[[10, 0, -10], [10, 0, 10], [-10, 0, 10], [-10, 0, -10]]}       // Array of Points\n        closed={true}                  // Default false\n        curveType=\"centripetal\"         // 曲线类型\"centripetal\" (default), \"chordal\", or \"catmullrom\"\n        tension={2.5}                   // Default 0.5 (only applies to \"catmullrom\" curveType)\n        color=\"#3bc609\"                   // Default\"black\" \n        lineWidth={1}                   // 线宽 (default)\n        dashed={false}                  // 虚线 Default\n      // vertexColors={[[0, 0, 0], ...]} // Optional array of RGB values for each point\n      // {...lineProps}                  // 所有三个line2道具都是有效的\n      // {...materialProps}              // 所有三个材料道具都是有效的\n      />",
+                  "children": []
+                },
+                {
+                  "id": 219,
+                  "parentId": 136,
+                  "label": "简单的线段(声明式)",
+                  "value": "<Segments limit={6} lineWidth={2.0}>\n        <Segment start={[0, 0, 0]} end={[10, 0, 0]} color={'red'} />\n        <Segment start={[0, 0, 0]} end={[0, 10, 0]} color={'blue'} />\n        <Segment start={[0, 0, 0]} end={[0, 0, 10]} color={'green'} />\n        <Segment start={[0, 0, 0]} end={[-10, 0, 0]} color={[1, 0, 0]} />\n        <Segment start={[0, 0, 0]} end={[0, -10, 0]} color={[0, 1, 0]} />\n        <Segment start={[0, 0, 0]} end={[0, 0, -10]} color={[1, 1, 0]} />\n      </Segments>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 220,
+                  "parentId": 136,
+                  "label": "动态多线段",
+                  "value": "import React, { useRef } from \"react\"\nimport { useGLTF, Segments, Segment } from \"@react-three/drei\"\nimport { useFrame } from '@react-three/fiber'\nimport * as THREE from 'three'\nexport function Test4 () {\n  const ref = React.useRef([])\n\n  useFrame(({ clock }) => {\n    ref.current.forEach((r, i) => {\n      const time = clock.elapsedTime\n      const x = Math.sin((i / 5000) * Math.PI) * 10\n      const y = Math.cos((i / 5000) * Math.PI) * 10\n      const z = Math.cos((i * time) / 1000)\n      r.start.set(x, y, z)\n      r.end.set(x + Math.sin(time + i), y + Math.cos(time + i), z)\n      r.color.setRGB(x / 10, y / 10, z)\n    })\n  })\n  return (\n    <>\n      <Segments limit={1000} lineWidth={1}>\n        {Array.from({ length: 1000 }).map((_, i) => (\n          <Segment key={i} ref={(r) => (ref.current[i] = r)} color=\"orange\" start={[0, 0, 0]} end={[0, 0, 0]} />\n        ))}\n      </Segments>  </>\n  )\n}\n",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 130,
+                  "parentId": 136,
+                  "label": "边框几何",
+                  "value": "      <mesh >\n        <boxGeometry />\n        <meshBasicMaterial color={'#fdff50'}\n          visible={false} //主体材质不可见\n        />\n        <Edges //只显示边框\n          scale={1.1}\n          threshold={15} // 仅当两个面之间的角度超过此值时显示边缘(default=15 degrees)\n          color=\"#a5ff8a\"\n          position={[0, 0, 0]}\n        />\n      </mesh>",
+                  "children": []
+                },
+                {
+                  "id": 155,
+                  "parentId": 136,
+                  "label": "line直线虚线",
+                  "value": " <Line\n       points={[[1,0,0],[2,3,0],[3,3,3]]}\n       color='white'  \n       lineWidth={10}  //粗细 默认值1\n       dashed={false} //虚线 默认值fasle\n       dashSize={1}   //虚线长度 默认值1\n       dashScale={2}  //虚线占比 默认值1\n       gapSize={1}   //虚线长度 默认值1\n       vertexColors={[[1, 0, 0],[1,1,0],[0,1,0]]} //顶点色 color=white 时起作用\n       scale={2}     //缩放比\n       />",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 134,
+              "parentId": 4,
+              "label": "Attributes",
+              "folder": true,
+              "children": [
+                {
+                  "id": 193,
+                  "parentId": 134,
+                  "label": "创建Attribute(声明式)",
+                  "value": "<bufferGeometry ref={ geometryRef }>\n    <bufferAttribute\n        attach=\"attributes-position\"\n        count={ verticesCount } //多少个顶点\n        itemSize={ 3 }    //数组中有多少项组成一个顶点\n        array={ positions } //实际数组\n    />\n</bufferGeometry>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 135,
+                  "parentId": 134,
+                  "label": "ComputedAttribute新增属性(声明式)",
+                  "value": " function remap (x, [low1, high1], [low2, high2]) {\n    return low2 + ((x - low1) * (high2 - low2)) / (high1 - low1)\n\n  }\n  //新增attributes属性函数\n  const computeUpness = (geometry) => {\n    const { array, count } = geometry.attributes.normal //提取总数和数组\n    const arr = new Float32Array(count)//创建arr总数\n    const normalVector = new THREE.Vector3()\n    const up = new THREE.Vector3(0, 1, 0)\n\n    for (let i = 0; i < count; i++) {\n      const n = array.slice(i * 3, i * 3 + 3) //分成每3个一组\n      normalVector.set(n[0], n[1], n[2])\n      const dot = normalVector.dot(up)//取与up同方向的\n      const value = dot > 0.4 ? remap(dot, [0.4, 1], [0, 1]) : 0 //过滤\n      arr[i] = value\n    }\n    return new THREE.BufferAttribute(arr, 1)\n  }\n  <boxGeometry >\n    <ComputedAttribute name=\"upness\" compute={computeUpness} />\n  </boxGeometry>",
+                  "children": [],
+                  "resolveSyntax": true
+                }
+              ]
+            },
+            {
+              "id": 61,
+              "parentId": 4,
+              "label": "材质",
+              "folder": true,
+              "children": [
+                {
+                  "id": 62,
+                  "parentId": 61,
+                  "label": "公共设置",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 64,
+                      "parentId": 62,
+                      "label": "color颜色",
+                      "value": "color={'${1:#ff0000}'}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 81,
+                      "parentId": 62,
+                      "label": "side两面可见",
+                      "value": "side={THREE.DoubleSide}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 67,
+                      "parentId": 62,
+                      "label": "wireframe线框",
+                      "value": "wireframe",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 77,
+                      "parentId": 62,
+                      "label": "opacity开启透明",
+                      "value": "transparent opacity={${1:0.5}}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 68,
+                      "parentId": 62,
+                      "label": "vertexColors顶点色",
+                      "value": "vertexColors",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 79,
+                      "parentId": 62,
+                      "label": "toneMapped不被gl的tone色调映射曝光度影响",
+                      "value": "toneMapped={false}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 69,
+                      "parentId": 62,
+                      "label": "fog雾",
+                      "value": "fog",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 63,
+                      "parentId": 62,
+                      "label": "flatShading平直着色",
+                      "value": "flatShading",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 80,
+                      "parentId": 62,
+                      "label": "visible材质不可见",
+                      "value": "visible={false}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 72,
+                      "parentId": 62,
+                      "label": "blending混合模式",
+                      "value": "  const { blending } = useControls('材质混合模式', {\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n  })\n\n  // 使用: <Material blending={blending} />",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 108,
+                      "parentId": 62,
+                      "label": "blending自定义混合leva参数",
+                      "value": " const { blending, Equation, Dst,Src } = useControls('材质混合模式', {\n    blending: {\n      value: THREE.CustomBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    Equation: { //混合方程式算法\n      value: THREE.AddEquation, options: [\n        THREE.AddEquation, //加\n        THREE.SubtractEquation,//减\n        THREE.ReverseSubtractEquation,//反向减去\n        THREE.MinEquation,//最小\n        THREE.MaxEquation,//最大\n      ]\n    },\n    Dst: { //目标 默认：THREE.OneMinusSrcAlphaFactor\n      value: THREE.OneFactor, options: [\n        THREE.OneMinusSrcAlphaFactor, //\n        THREE.ZeroFactor,//\n        THREE.OneFactor,//\n        THREE.OneMinusSrcColorFactor,//\n        THREE.SrcAlphaFactor,//\n        THREE.DstAlphaFactor,//\n        THREE.OneMinusDstAlphaFactor,//\n        THREE.DstColorFactor,//\n        THREE.OneMinusDstColorFactor,//\n      ]\n    },\n    Src: { //源,默认:SrcAlphaFactor\n      value: THREE.OneFactor, options: [\n        THREE.OneMinusSrcAlphaFactor, //\n        THREE.ZeroFactor,//\n        THREE.OneFactor,//\n        THREE.OneMinusSrcColorFactor,//\n        THREE.SrcAlphaFactor,//\n        THREE.DstAlphaFactor,//\n        THREE.OneMinusDstAlphaFactor,//\n        THREE.DstColorFactor,//\n        THREE.OneMinusDstColorFactor,//\n        THREE.SrcAlphaSaturateFactor,//\n      ]\n    },\n  })",
+                      "children": []
+                    },
+                    {
+                      "id": 70,
+                      "parentId": 62,
+                      "label": "alphaTest(alphaTest>0且opacity<alphaTest则不渲染材质)",
+                      "value": "alphaTest={0.1} opacity={0.09}",
+                      "children": []
+                    },
+                    {
+                      "id": 78,
+                      "parentId": 62,
+                      "label": "shadowSide阴影投影面",
+                      "value": "shadowSide={${1|null,THREE.FrontSide,THREE.BackSide|}}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 71,
+                      "parentId": 62,
+                      "label": "alphaToCoverage平滑透明边缘(抗锯齿true时)",
+                      "value": "alphaToCoverage",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 73,
+                      "parentId": 62,
+                      "label": "colorWrite不渲染颜色",
+                      "value": "colorWrite={false}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 74,
+                      "parentId": 62,
+                      "label": "depthTest关闭深度测试(物体变穿透)",
+                      "value": "depthTest={false}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 75,
+                      "parentId": 62,
+                      "label": "depthTest关闭深度写入(与2D叠加不设置z-index时生效)",
+                      "value": "depthTest={false}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 76,
+                      "parentId": 62,
+                      "label": "forceSinglePass开启双面透明材质性能增强",
+                      "value": "forceSinglePass",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 91,
+                      "parentId": 62,
+                      "label": "needsUpdate(改变纹理时使用)",
+                      "value": "needsUpdate",
+                      "children": [],
+                      "resolveSyntax": true
+                    }
+                  ]
+                },
+                {
+                  "id": 82,
+                  "parentId": 61,
+                  "label": "basic基础材质(不受光照的影响,无阴影)",
+                  "value": "const { ...basic } = useControls('basic材质', {\n    color: '#ffffff',\n    side: { options: [THREE.FrontSide, THREE.DoubleSide, THREE.BackSide] },\n    wireframe: false,\n    transparent: false,\n    opacity: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    vertexColors: false,\n    toneMapped: true,\n    fog: true,\n    flatShading: false,\n    visible: true,\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    alphaTest: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    depthTest: true,\n  }, { collapsed: true },//初始化折叠\n  )\n\n{/* //!不受光照的影响,无阴影 */}\n        <meshBasicMaterial ...basic/>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 83,
+                  "parentId": 61,
+                  "label": "MatCap材质(贴图具有照明和反射)",
+                  "value": "//挑选matcap贴图https://github.com/nidorx/matcaps\n  const [matcapTexture] = useMatcapTexture('7B5254_E9DCC7_B19986_C8AC91', 512)\n//glsl代码:vertex \n//vNormal = normalize(vec3(world * vec4(normal, 0.0)));\n//Fragment\n//highp vec2 muv = vec2(view * vec4(normalize(vNormal), 0))*0.5+vec2(0.5,0.5);\n//gl_FragColor = texture2D(matcapTexture, vec2(muv.x, 1.0-muv.y));\n    < meshMatcapMaterial matcap = { matcapTexture } />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 92,
+                  "parentId": 61,
+                  "label": "Toon卡通材质",
+                  "value": "const { ...Toon } = useControls('Toon材质', {\n    color: '#049ef4',\n    side: { options: [THREE.FrontSide, THREE.DoubleSide, THREE.BackSide] },\n    wireframe: false,\n    transparent: false,\n    opacity: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    vertexColors: false,\n    toneMapped: true,\n    fog: true,\n    flatShading: false,\n    visible: true,\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    alphaTest: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    depthTest: true,\n    emissive: '#000000',\n    emissiveIntensity: { value: 1, min: 0, max: 10, step: 0.01 },\n  }, { collapsed: true },//初始化折叠\n  )\n  {/* //!卡通 */}\n  <meshToonMaterial {...Toon} />",
+                  "children": []
+                },
+                {
+                  "id": 84,
+                  "parentId": 61,
+                  "label": "Depth深度材质",
+                  "value": "<meshDepthMaterial />",
+                  "children": []
+                },
+                {
+                  "id": 87,
+                  "parentId": 61,
+                  "label": "Lambert材质(光照无反射)",
+                  "value": "const { ...Lambert } = useControls('Lambert材质', {\n    color: '#ffffff',\n    side: { options: [THREE.FrontSide, THREE.DoubleSide, THREE.BackSide] },\n    wireframe: false,\n    transparent: false,\n    opacity: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    vertexColors: false,\n    toneMapped: true,\n    fog: true,\n    flatShading: false,\n    visible: true,\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    alphaTest: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    depthTest: true,\n    emissive: '#ffffff',\n    emissiveIntensity: { value: 1, min: 0, max: 10, step: 0.01 },\n  }, { collapsed: true },//初始化折叠\n  )\n  \n  <meshLambertMaterial {...Lambert} />",
+                  "children": []
+                },
+                {
+                  "id": 88,
+                  "parentId": 61,
+                  "label": "Phone材质(灯光位置影响高光)",
+                  "value": " const { ...Phone } = useControls('Phone材质', {\n    color: '#049ef4',\n    side: { options: [THREE.FrontSide, THREE.DoubleSide, THREE.BackSide] },\n    wireframe: false,\n    transparent: false,\n    opacity: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    vertexColors: false,\n    toneMapped: true,\n    fog: true,\n    flatShading: false,\n    visible: true,\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    alphaTest: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    depthTest: true,\n    specular: '#111111',//高光颜色\n    emissive: '#000000',\n    emissiveIntensity: { value: 1, min: 0, max: 10, step: 0.01 },\n    shininess: { value: 30, min: 0, max: 200, step: 0.01 },\n  }, { collapsed: true },//初始化折叠\n  )\n {/* //!灯光位置影响高光 */}\n<meshPhongMaterial {...Phone} />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 89,
+                  "parentId": 61,
+                  "label": "Stander标准材质(糙度金属控制高光)",
+                  "value": "const { ...Standar } = useControls('Standar材质', {\n    color: '#049ef4',\n    side: { options: [THREE.FrontSide, THREE.DoubleSide, THREE.BackSide] },\n    wireframe: false,\n    transparent: false,\n    opacity: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    vertexColors: false,\n    toneMapped: true,\n    fog: true,\n    flatShading: false,\n    visible: true,\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    alphaTest: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    depthTest: true,\n    emissive: '#000000',\n    emissiveIntensity: { value: 1, min: 0, max: 10, step: 0.01 },\n    metalness: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },\n\n  }, { collapsed: true },//初始化折叠\n  )\n {/* //!糙度金属控制高光 */}\n <meshStandardMaterial {...Standar} />",
+                  "children": []
+                },
+                {
+                  "id": 90,
+                  "parentId": 61,
+                  "label": "Physical(增加清漆,透明玻璃)",
+                  "value": "const { ...Physical } = useControls('Physical材质', {\n    color: '#049ef4',\n    side: { options: [THREE.FrontSide, THREE.DoubleSide, THREE.BackSide] },\n    wireframe: false,\n    transparent: false,\n    opacity: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    vertexColors: false,\n    toneMapped: true,\n    fog: true,\n    flatShading: false,\n    visible: true,\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    alphaTest: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    depthTest: true,\n    emissive: '#000000',\n    emissiveIntensity: { value: 1, min: 0, max: 10, step: 0.01 },\n    metalness: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    clearcoat: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    clearcoatRoughness: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    transmission: { value: 0, min: 0, max: 1 }, //! 开启透明属性\n    thickness: { value: 3.5, min: 0, max: 10, step: 0.01 }, //厚度\n    ior: { value: 1.5, min: 1, max: 5, step: 0.01 },\n  }, { collapsed: true },//初始化折叠\n  )\n {/* //!Stander+清漆 */}\n <meshPhysicalMaterial {...Physical} />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 94,
+                  "parentId": 61,
+                  "label": "Transnission透玻璃进阶材质",
+                  "value": "  const {...Transmission} = useControls('Transmission', {\n    transmission: { value: 1, min: 0, max: 1 }, //!透度开关\n    backside: false, //背面厚度开关，默认false\n    backsideResolution: { value: 2048, min: 256, max: 2048, step: 256 },//背面分辨率\n    samples: { value: 10, min: 1, max: 32, step: 1 },//采样数，越高性能越差\n    resolution: { value: 2048, min: 256, max: 2048, step: 256 },//分辨率 默认undefined\n    roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    thickness: { value: 3.5, min: 0, max: 10, step: 0.01 },//0-10 厚薄度, 越低越通透，默认0\n    ior: { value: 1.5, min: 1, max: 5, step: 0.01 },\n    chromaticAberration: { value: 0.06, min: 0, max: 1 },//色差,球内rgb偏移有厚度时调高,默认0.03\n    anisotropy: { value: 0.1, min: 0, max: 1, step: 0.01 },//各向异性，越高越模糊，默认0.1\n    distortion: { value: 0.0, min: 0, max: 1, step: 0.01 },//0-1 略微扭曲失真，默认0\n    distortionScale: { value: 0.3, min: 0.01, max: 1, step: 0.01 },//失真不为0时生效，配合temporalDistortion球内有抖动效果，默认0.5\n    temporalDistortion: { value: 0.5, min: 0, max: 1, step: 0.01 },//抖动速度,默认0\n    clearcoat: { value: 1, min: 0, max: 1 }, //清漆\n    attenuationDistance: { value: 0.5, min: 0, max: 10, step: 0.01 },\n    attenuationColor: '#ffffff',\n    color: '#c9ffa1',\n    bg: '#839681'\n  }, { collapsed: true },//初始化折叠\n  )\n\n{/* //! 透玻璃进阶材质 */}\n<MeshTransmissionMaterial {...Transmission} />",
+                  "children": []
+                },
+                {
+                  "id": 93,
+                  "parentId": 61,
+                  "label": "Reflector镜面反射材质",
+                  "value": "  const { blur, mixBlur, mixStrength, mixContrast, resolution, bool, mirror, depthScale, minDepthThreshold, maxDepthThreshold, depthToBlurRatioBias, debug, reflectorOffset, color, roughness, metalness, ...basic } = useControls('Reflector镜面反射', {\n    blur:\n      { value: { x: - 2, y: 0 }, step: 0.01, joystick: 'invertY' },\n    mixBlur: { value: 1, min: 0, max: 10, step: 0.01 },\n    mixStrength: { value: 1, min: 0, max: 10, step: 0.01 },\n    mixContrast: { value: 1, min: 0, max: 10, step: 0.01 },\n    resolution: { value: 1024, min: 0, max: 1024, step: 1 },\n    mirror: { options: [0, 1] },\n    depthScale: { value: 0, min: 0, max: 10, step: 0.01 },\n    minDepthThreshold: { value: 0, min: 0, max: 10, step: 0.01 },\n    maxDepthThreshold: { value: 0, min: 0, max: 10, step: 0.01 },\n    depthToBlurRatioBias: { value: 0.25, min: 0, max: 10, step: 0.01 },\n    debug: { options: [0, 1, 2, 3, 4] },\n    reflectorOffset: { value: 0, min: 0, max: 10, step: 0.01 },\n    roughness: { value: 0, min: 0, max: 1, step: 0.01 },\n    metalness: { value: 0, min: 0, max: 1, step: 0.01 },\n\n    color: '#ffffff',\n    side: { options: [THREE.FrontSide, THREE.DoubleSide, THREE.BackSide] },\n    wireframe: false,\n    transparent: false,\n    opacity: { value: 0.5, min: 0, max: 1, step: 0.01 },\n    vertexColors: false,\n    toneMapped: true,\n    fog: true,\n    flatShading: false,\n    visible: true,\n    blending: {\n      value: THREE.NormalBlending, options: [\n        THREE.NoBlending, //不进行混合，即完全覆盖底层像素。\n        THREE.NormalBlending,//!默认值,常用于半透明材质\n        THREE.AdditiveBlending,//常用于添加光源或粒子效果\n        THREE.SubtractiveBlending,//常用于深色材质\n        THREE.MultiplyBlending,//常用于模拟阴影或透光效果\n        THREE.CustomBlending//自定义混合模式，需要通过设置 Material.blendSrc 和 Material.blendDst 属性来指定混合方式。\n      ]\n    },\n    alphaTest: { value: 0.0, min: 0, max: 1, step: 0.01 },\n    depthTest: true,\n    emissive: '#000000',\n    emissiveIntensity: { value: 1, min: 0, max: 10, step: 0.01 },\n\n  }, { collapsed: true },//初始化折叠\n  )\n\n{/* //!镜面反射材质 */}\n<MeshReflectorMaterial\n{...basic}\ncolor={color}\nroughness={roughness}\nmetalness={metalness}\nblur={[blur.x, blur.y]} // 模糊的地面反射（宽度，高度），0跳动模糊\nmixBlur={mixBlur} // 多少模糊与表面粗糙度混合（默认= 1）\nmixStrength={mixStrength} // 反思的力量\nmixContrast={mixContrast} // 反射的对比\nresolution={resolution} // 越来越低的分辨率，较低=更快，更高=质量更好，较慢\nmirror={mirror} // 镜像环境，0 =纹理颜色，1 =拾取env颜色,不显示自身\ndepthScale={depthScale} // 缩放深度因子（0 =无深度，默认值= 0）\nminDepthThreshold={minDepthThreshold} // 深度文本插值的下边缘（默认= 0）\nmaxDepthThreshold={maxDepthThreshold} //深度插值的上边缘（默认= 0）\ndepthToBlurRatioBias={depthToBlurRatioBias} // 在计算模糊量[Blurfactor = BlurTexture *（DepthTexture + alial）之前，将偏差因子添加到深度文本中。它接受0到1之间的值，默认值为0.25。偏差的金额> 0确保由于深度x的乘法，模糊不太清晰\n// distortion={1} // 基于失真示范纹理的失真量\n// distortionMap={distortionTexture} // 该纹理的红色通道用作失真图. Default is null\ndebug={debug} /* 根据分配的值，显示以下频道之一:\n0 = no debug\n1 = depth channel\n2 = base channel\n3 = distortion channel\n4 = lod channel (based on the roughness)\n*/\nreflectorOffset={reflectorOffset} // 抵消投影反射的虚拟相机。当反射表面距离对象的原点一定距离时（默认= 0）时有用\n/>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 95,
+                  "parentId": 61,
+                  "label": "Refraction钻石材质(每个面渲染1个env)",
+                  "value": "  const { ...Refraction } = useControls('Refraction钻石材质',{\n    bounces: { value: 3, min: 0, max: 8, step: 1 },//光线投射反弹的次数，太多可能会很昂贵\n    aberrationStrength: { value: 0.01, min: 0, max: 0.1, step: 0.01 },//RGB 偏移强度，可能很昂贵\n    ior: { value: 2.75, min: 0, max: 10 },\n    fresnel: { value: 1, min: 0, max: 1 },//菲涅耳\n    color: 'white',\n    fastChroma: true//如果启用它，它会为牺牲物理精度的 RGB 偏移使用更少的光线投射 \n  })\n   {/* //! 必须有envMap,每个面渲染1个envmap */}\n   <MeshRefractionMaterial {...Refraction} envMap={texture} />\n\n {/* //! 如果你想让它反映场景中的其他物体，你最好将它与立方体相机配对。 */}\n//<CubeCamera>\n  //{(texture) => (\n   // <mesh geometry={diamondGeometry} {...props}>\n     // <MeshRefractionMaterial envMap={texture} />\n  //  </mesh>\n // )}\n//</CubeCamera>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 96,
+                  "parentId": 61,
+                  "label": "摇摆材质",
+                  "value": "<MeshWobbleMaterial factor={1} speed={10} />",
+                  "children": []
+                },
+                {
+                  "id": 97,
+                  "parentId": 61,
+                  "label": "扭曲置换材质",
+                  "value": "<MeshDistortMaterial distort={1} speed={10} />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 98,
+                  "parentId": 61,
+                  "label": "隐身材质(看不见但有阴影)",
+                  "value": " <MeshDiscardMaterial />",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 46,
+              "parentId": 4,
+              "label": "纹理贴图",
+              "folder": true,
+              "children": [
+                {
+                  "id": 50,
+                  "parentId": 46,
+                  "label": "设置过滤算法mag|min",
+                  "value": "  const { magFilter, minFilter } = useControls('纹理过滤算法', {\n    magFilter: { value: 'THREE.NearestFilter', options: ['THREE.NearestFilter', 'THREE.LinearFilter'] },\n    minFilter: { value: 'THREE.NearestFilter', options: ['THREE.NearestFilter', 'THREE.LinearFilter', 'THREE.NearestMipmapNearestFilter', 'THREE.NearestMipmapLinearFilter', 'THREE.LinearMipmapNearestFilter', 'THREE.LinearMipmapLinearFilter'] },\n  })\n  //纹理过滤器:当纹理大于尺寸时=纹理太大\n  //THREE.NearestFilter选取最接近的一个像素,就像Minecraft\n  //THREE.LinearFilter选择离我们应该选择颜色的地方最近的4个像素，并根据实际点与4个像素的距离，以适当的比例进行混合\n  texture.magFilter = magFilter\n  //纹理过滤器:当纹理小于尺寸时=纹理太小\n  //THREE.LinearFilter选择离我们应该选择颜色的地方最近的4个像素，并根据实际点与4个像素的距离，以适当的比例进行混合\n  //THREE.NearestMipmapNearestFilter选择合适的mip，然后选择一个像素\n  //THREE.NearestMipmapLinearFilter选择2个mips，从每个mips中选择一个像素，混合这2个像素。\n  //THREE.LinearMipmapNearestFilter选择合适的mip，然后选择4个像素并将它们混合。\n  //!THREE.LinearMipmapLinearFilter选择2个mips，从每个mips中选择4个像素，然后将所有8个像素混合成1个像素。效果最好,但是性能差\n  texture.minFilter = minFilter //选择最近的像素",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 48,
+                  "parentId": 46,
+                  "label": "设置重复",
+                  "value": " texture1.wrapS = texture1.wrapT = THREE.RepeatWrapping\ntexture.repeat.set(2,2)//重复几次\ntexture.offset.set(0.5,0.5) //重复偏移多少",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 49,
+                  "parentId": 46,
+                  "label": "blender导出禁用Y翻转",
+                  "value": "texture.flipY = false//纹理禁止坐标翻转",
+                  "children": []
+                },
+                {
+                  "id": 51,
+                  "parentId": 46,
+                  "label": "设置旋转",
+                  "value": "texture.center : new THREE.Vector2(0.5,0.5)",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 52,
+                  "parentId": 46,
+                  "label": "使用ao环境遮挡贴图",
+                  "value": "aoMap = ${1:texture} aoMapIntensity = 1//控制强度\n\n\n//为了让它起作用，您必须添加我们所说的第二组 UV（有助于在几何体上定位纹理的坐标）。\nsphere.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2))",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 53,
+                  "parentId": 46,
+                  "label": "使用置换贴图",
+                  "value": "displacementMap = {${1:texture}} displacementScale = {${2:1}}",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 54,
+                  "parentId": 46,
+                  "label": "使用金属贴图",
+                  "value": "metalnessMap = {${ 1: texture }}",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 55,
+                  "parentId": 46,
+                  "label": "使用糙度贴图",
+                  "value": "roughnessMap = {${ 1: texture }}",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 56,
+                  "parentId": 46,
+                  "label": "使用法线贴图",
+                  "value": "normalMap={${1:texture}} normalScale={[1, 1]} normalMapType={${2|THREE.TangentSpaceNormalMap, THREE.ObjectSpaceNormalMap|}}",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 57,
+                  "parentId": 46,
+                  "label": "使用透明贴图",
+                  "value": "transparent alphaMap = ${ 1: texture }",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 58,
+                  "parentId": 46,
+                  "label": "使用视频贴图",
+                  "value": "//导入const texture = useVideoTexture(\"${1:/video.mp4}\")\n\nmap={${1:texture}} toneMapped={false} />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 59,
+                  "parentId": 46,
+                  "label": "使用环境贴图",
+                  "value": "envMap={${1:texture}} envMapIntensity={1.0}",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 60,
+                  "parentId": 46,
+                  "label": "使用渐变贴图",
+                  "value": "<meshBasicMaterial>\n    <GradientTexture\n      stops={[0, 0.8, 1]} // 区间点\n      colors={['#e63946', '#f1faee', '#a8dadc']} // 区间颜色\n      size={100} // Size is optional, default = 1024\n    />\n  </meshBasicMaterial>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 47,
+                  "parentId": 46,
+                  "label": "使用轨迹贴图",
+                  "value": "  //导入过渡库:import * as easings from 'd3-ease'\n  const { ease, ...conf } = useControls('Trail', {\n    size: { value: 64, min: 8, max: 256, step: 8 },\n    radius: { value: 0.3, min: 0, max: 1 },\n    maxAge: { value: 750, min: 300, max: 1000 },\n    interpolate: { value: 0, min: 0, max: 2, step: 1 },\n    smoothing: { value: 0, min: 0, max: 0.99, step: 0.01 },\n    minForce: { value: 0.3, min: 0, max: 1, step: 0.1 },\n    intensity: { value: 0.2, min: 0, max: 1, step: 0.1 },\n    blend: { value: 'screen', options: ['source-over', 'screen'] },\n    ease: { value: 'easeCircleOut', options: Object.keys(easings) },\n  })\n  const { texture, onMove } = useTrailTexture({ ...conf, ease: easings[ease] })//轨迹贴图\n  //使用: <mesh onPointerMove={onMove}>${!: geometry}<meshBasicMaterial map={texture} /></mesh>\n//? 示例",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 163,
+                  "parentId": 46,
+                  "label": "depthBuffer使用深度贴图",
+                  "value": "import React, { useEffect, useRef, useState } from 'react'\nimport { useFrame } from '@react-three/fiber'\nimport { Box, Select, useSelect, useDepthBuffer } from '@react-three/drei'\nimport * as THREE from 'three'\n\nexport default function Test2 () {\n  //将spotLight渲染的场景作为贴图使用\n  const light = useRef()\n  const box = useRef()\n  const depthBuffer = useDepthBuffer({\n    size: 256, // FBO的大小，默认为256\n    frames: Infinity, // 它呈现多少帧，默认情况下无限\n  })\n  useFrame((state) => {\n    const time = state.clock.elapsedTime\n    light.current.position.x = Math.sin(time)\n  }, [])\n  return (\n    <>\n\n      <spotLight ref={light} castShadow penumbra={1} distance={8} angle={0.4} attenuation={5} anglePower={4} intensity={20} depthBuffer={depthBuffer} />\n      {/* <SomethingThatNeedsADepthBuffer depthBuffer={depthBuffer} /> */}\n      <mesh ref={box}>\n        <boxBufferGeometry args={[1, 1, 1]} />\n        <meshStandardMaterial map={depthBuffer} color={'#37ff21'} />\n      </mesh>\n    </>\n  )\n} ",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 164,
+                  "parentId": 46,
+                  "label": "FBO把1个相机的渲染结果当作贴图使用",
+                  "value": "import React, { useEffect, useRef, useState } from 'react'\nimport { useFrame, createPortal } from '@react-three/fiber'\nimport { Box, Select, useSelect, useDepthBuffer, TorusKnot, PerspectiveCamera, useFBO } from '@react-three/drei'\nimport * as THREE from 'three'\n\n\n\n//被渲染的场景\nfunction SpinningThing () {\n  const mesh = React.useRef()\n  useFrame(() => {\n    mesh.current.rotation.x = mesh.current.rotation.y = mesh.current.rotation.z += 0.01\n  })\n  return (\n    <TorusKnot ref={mesh} args={[1, 0.4, 100, 64]} position={[4, 0, 0]} >\n      <meshNormalMaterial />\n    </TorusKnot>\n  )\n}\n\n//使用FBO场景变贴图\nfunction UseFBOScene ({ color = 'orange', ...props }) {\n  const cam = React.useRef()\n  const scene = React.useMemo(() => {\n    const scene = new THREE.Scene()\n    scene.background = new THREE.Color('#fc5b32')\n    return scene\n  }, [color])\n  const target = useFBO({\n    // multisample,\n    samples: 8,\n    stencilBuffer: false,\n    // format: THREE.RGBFormat\n  })\n\n  useFrame((state) => {\n    cam.current.position.z = 5 + Math.sin(state.clock.getElapsedTime() * 1.5) * 2\n    state.gl.setRenderTarget(target)\n    state.gl.render(scene, cam.current)\n    state.gl.setRenderTarget(null)\n  })\n\n  return (\n    <>\n      <PerspectiveCamera ref={cam} position={[0, 0, 3]} />\n      {createPortal(<SpinningThing />, scene)}\n      <Box args={[3, 3, 3]}>\n        <meshStandardMaterial map={target.texture} />\n      </Box>\n    </>\n  )\n}\n\n\n\nexport default function Test2 () {\n\n  return (\n    <>\n      <SpinningThing />\n      <UseFBOScene />\n    </>\n  )\n} ",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 176,
+                  "parentId": 46,
+                  "label": "RenderTexture渲染的场景变纹理",
+                  "value": "import {RenderTexture} from '@react-three/drei\n<RenderTexture attach='map'\n      // width={{512}  //纹理的可选宽度，默认为视口边界\n      //height={512}\n      frames={Infinity}//  可选的帧数，默认为 Infinity。如果将它设置为 1，它只会渲染单帧\n    >\n      <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[1.5, 0, 5]} />\n\n      <mesh  >\n         \n      </mesh>\n \n    </RenderTexture>\n\n  <meshBasicMaterial ><场景函数/></meshBasicMaterial >//使用纹理方法\n示例:https://codesandbox.io/s/using-render-texture-through-decals-forked-2q2rsg?file=/src/App.js:2979-2999",
+                  "children": [],
+                  "resolveSyntax": true
+                }
+              ]
+            },
+            {
+              "id": 5,
+              "parentId": 4,
+              "label": "灯光",
+              "folder": true,
+              "children": [
+                {
+                  "id": 6,
+                  "parentId": 5,
+                  "label": "环境光",
+                  "value": " <ambientLight intensity={0.5} color={${1:'#ffffff'}} />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 12,
+                  "parentId": 5,
+                  "label": "太阳光",
+                  "value": "const directRef = useRef()\n       useHelper(directRef, THREE.DirectionalLightHelper)\n      <TransformControls mode='translate' object={directRef} onObjectChange={() => { console.log(directRef.current.position) }}>\n        <directionalLight intensity={0.8}\n          castShadow\n          position={[4, 4, 1]}\n          ref={directRef}\n          shadow-mapSize={[1024, 1024]}\n          shadow-camera-left={-10}\n          shadow-camera-right={10}\n          shadow-camera-top={10}\n          shadow-camera-bottom={-10}\n          shadow-camera-near={1}\n          shadow-camera-far={10}\n          shadow-normalBias={0.04}\n        />\n      </TransformControls>\n",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 66,
+                  "parentId": 5,
+                  "label": "太阳光相机helper",
+                  "value": "const { scene } = useThree() //获取gl mesh 相机 \n  useEffect(() => {\n    scene.add(new THREE.CameraHelper(directRef.current.shadow.camera))\n  }, [])",
+                  "children": []
+                },
+                {
+                  "id": 13,
+                  "parentId": 5,
+                  "label": "点光",
+                  "value": " const pointRef = useRef()\n      useHelper(pointRef, THREE.PointLightHelper)\n      <TransformControls mode='translate' object={pointRef} onObjectChange={() => { console.log(pointRef.current.position) }}>\n        <pointLight intensity={0.43}\n          ref={pointRef}\n          position={[0, 0, 0]}\n          color={'white'}\n          distance={10} //从光源到光照强度为0的位置。 当设置为0时，光永远不会消失(距离无穷大)。缺省值 0.\n          decay={2}//沿着光照距离的衰退量。缺省值 2。\n          castShadow\n        />\n      </TransformControls>",
+                  "children": []
+                },
+                {
+                  "id": 14,
+                  "parentId": 5,
+                  "label": "聚光灯",
+                  "value": "const spotRef = useRef()\n     useHelper(spotRef, THREE.SpotLightHelper)\n     <TransformControls mode='translate' object={spotRef} onObjectChange={() => { console.log(spotRef.current.position) }}>\n         <spotLight\n           ref={spotRef}\n           position={[-2, 1, 0]}\n           color={new THREE.Color(0x78ff00)}\n           intensity={0.5}\n           distance={10} //强度下降到的距离0\n           angle={Math.PI * 0.1} //光束有多大\n           penumbra={0.25} //光束轮廓的扩散程度\n           decay={1}  //衰减\n         // target={cref.current} //目标\n         />\n       </TransformControls>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 15,
+                  "parentId": 5,
+                  "label": "平面光",
+                  "value": "import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js'\n      const rectRef = useRef()\n      useHelper(rectRef, RectAreaLightHelper)\n      <TransformControls mode='translate' object={rectRef} onObjectChange={() => { console.log(rectRef.current.position) }}>\n        <rectAreaLight intensity={0.43} ref={rectRef}\n          position={[0, 1, 2]}\n          color={'red'}\n          width={2}\n          height={2}\n          lookAt={new THREE.Vector3(1, 0, 0)}\n        /></TransformControls>",
+                  "children": []
+                },
+                {
+                  "id": 16,
+                  "parentId": 5,
+                  "label": "半球光",
+                  "value": " const sphereref = useRef()\n      useHelper(sphereref, THREE.HemisphereLightHelper)\n      <TransformControls mode='translate' object={sphereref} onObjectChange={() => { console.log(sphereref.current.position) }}>\n        <hemisphereLight intensity={0.43}\n          color={'red'}\n          groundColor={'blue'}\n          ref={sphereref}\n        />\n      </TransformControls>",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 17,
+              "parentId": 4,
+              "label": "阴影",
+              "folder": true,
+              "children": [
+                {
+                  "id": 65,
+                  "parentId": 17,
+                  "label": "设置阴影类型(全局)",
+                  "value": "const { shadowMapType } = useControls('阴影类型(全局)', {\n    shadowMapType: {//阴影类型\n      options: [\n        THREE.PCFShadowMap,//默认值,性能较差但边缘更平滑\n        THREE.BasicShadowMap, //非常高效但质量很差,\n        THREE.PCFSoftShadowMap,//性能较差但边缘更柔和\n        THREE.VSMShadowMap,//性能较低，约束较多，可能会产生意想不到的结果\n      ], onChange: (v) => {\n        gl.shadowMap.type = v//色调映射的曝光级别。默认是1\n      },\n    },\n    shadowRadius: {//阴影模糊度,PCFSoftShadowMap时不生效\n      value: 3, min: 0, max: 50, step: 0.01, onChange: (v) => {\n        scene.getObjectByName('sun').shadow.radius = v//调整太阳光的阴影模糊度\n      },\n    }\n  })",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 18,
+                  "parentId": 17,
+                  "label": "软阴影",
+                  "value": " import { useControls } from 'leva'\n    const { size, samples, focus } = useControls('软阴影', {\n    size: { value: 25, min: 0, max: 50, step: 0.01 },\n    samples: { value: 10, min: 0, max: 100, step: 1 },\n    focus: { value: 4, min: 0, max: 100, step: 0.1 },\n      })\n      {/* 软阴影 */}\n      <SoftShadows size={size} //光源大小（越大光线越柔和） 默认25\n        samples={samples} //样本数量（样本越多噪音越小但成本越高） 默认10\n        focus={focus}//深度焦点，用它来移动焦点（阴影最锐利的地方）\n      />",
+                  "children": []
+                },
+                {
+                  "id": 19,
+                  "parentId": 17,
+                  "label": "累积阴影(假平面)",
+                  "value": "      <AccumulativeShadows  //累积阴影平面,对动态物体阴影效果差\n        scale={10} position={[0, -0.9, 0]} color=\"#4fb65d\"\n        opacity={0.8} frames={Infinity}\n        resolution={1024} //缓冲分辨率,默认1024\n        temporal//会随着时间的推移累积阴影，这会提高性能，但对即时结果有视觉上的回归,默认false\n        blend={100}//if frames === Infinity blend 控制刷新率,默认100\n        limit={Infinity}//如果 frames === Infinity，可以限制渲染的帧数，通常是为了在可移动场景稳定后恢复一些性能，默认Infinity\n      >\n        <RandomizedLight //默认8盏灯，可拆分多个在不同位置\n          frames={Infinity}//默认1\n          amount={8}//多少盏灯\n          radius={1}//抖动的幅度,值越大光线越柔和\n          ambient={0.5}//环境遮挡，较低的值意味着较少的 AO，较高的则更多，您可以混合 AO 和定向光,默认0.5\n          intensity={0.8}//灯光的强度\n          position={[5, 15, -10]}\n          bias={0.001} //阴影偏差,默认0\n          castShadow\n          mapSize={1024} //阴影贴图大小,默认512\n          size={10}//阴影相机的默认大小，10\n          near={0.5}//阴影相机的近裁剪面,默认0.5\n          far={500}//阴影相机的远裁剪面,默认500\n        />        {/* <RandomizedLight amount={4} radius={5} intensity={0.25} ambient={0.55} position={[-5, 5, -9]} /> */}\n      </AccumulativeShadows>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 20,
+                  "parentId": 17,
+                  "label": "烘焙阴影(第一帧固定阴影)",
+                  "value": "{/* 烘焙阴影 */}\n      <BakeShadows />",
+                  "children": []
+                },
+                {
+                  "id": 21,
+                  "parentId": 17,
+                  "label": "接触阴影(Y垂直平面时使用)",
+                  "value": "<ContactShadows //接触阴影,正上方的平面,关闭shadows\n        frames={Infinity} //默认Infinity\n        position={[0, -0.9, 0]}\n        opacity={1}\n        scale={10}\n        blur={1}\n        far={10}\n        resolution={512}\n        color=\"#000000\"\n      />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 234,
+                  "parentId": 17,
+                  "label": "阴影投射器(将纹理投影出来)",
+                  "value": "https://codesandbox.io/s/yyk6gv",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 34,
+              "parentId": 4,
+              "label": "导入",
+              "folder": true,
+              "children": [
+                {
+                  "id": 35,
+                  "parentId": 34,
+                  "label": "纹理",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 36,
+                      "parentId": 35,
+                      "label": "threejs_TextureLoader",
+                      "value": "let texture = new THREE.TextureLoader().load('${1:/public/trails.jpg}', (texture) => { texture['name'] = 'one' })",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 37,
+                      "parentId": 35,
+                      "label": "fiber_useLoader",
+                      "value": "const texture = useLoader(THREE.TextureLoader, '${1:/models/LeePerrySmith/color.jpg}')\n",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 38,
+                      "parentId": 35,
+                      "label": "drei_useTexture",
+                      "value": "const texture = useTexture('${1:./model/baked.jpg}')",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 39,
+                      "parentId": 35,
+                      "label": "drei_useTextrue一次导入多张一起使用",
+                      "value": "const props = useTexture({\n  map: 'PavingStones092_1K_Color.jpg',\n  displacementMap: 'PavingStones092_1K_Displacement.jpg',\n  normalMap: 'PavingStones092_1K_Normal.jpg',\n  roughnessMap: 'PavingStones092_1K_Roughness.jpg',\n  aoMap: 'PavingStones092_1K_AmbientOcclusion.jpg',\n})\n//使用:<meshStandardMaterial {...props} />",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 44,
+                      "parentId": 35,
+                      "label": "drei_useTextrue一次导入多张可单独使用",
+                      "value": "const [colorMap, displacementMap, normalMap, roughnessMap, aoMap] = useTexture([\n  'PavingStones092_1K_Color.jpg',\n  'PavingStones092_1K_Displacement.jpg',\n  'PavingStones092_1K_Normal.jpg',\n  'PavingStones092_1K_Roughness.jpg',\n  'PavingStones092_1K_AmbientOcclusion.jpg',\n])",
+                      "children": []
+                    },
+                    {
+                      "id": 45,
+                      "parentId": 35,
+                      "label": "视频贴图",
+                      "value": "const texture = useVideoTexture(\"${1:/video.mp4}\")\n\n//使用: <meshBasicMaterial map={texture} toneMapped={false} />",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 191,
+                      "parentId": 35,
+                      "label": "KTX2纹理",
+                      "value": "const texture = useKTX2(url)\nconst [texture1, texture2] = useKTX2([texture1, texture2])\n\nreturn <meshStandardMaterial map={texture} />",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 40,
+                  "parentId": 34,
+                  "label": "背景",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 41,
+                      "parentId": 40,
+                      "label": "6png",
+                      "value": "const envMap = useCubeTexture(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: '${1:cube/}' })",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 42,
+                      "parentId": 40,
+                      "label": "6jpg",
+                      "value": "  const envMap = useCubeTexture(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'], { path: '${1:cube/}' })\n",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 43,
+                      "parentId": 40,
+                      "label": "单张jpg当作背景并应用物体",
+                      "value": "const { gl, scene, camera, size } = useThree() //获取gl mesh 相机 \n  //从等距柱状纹理生成 PMREM,可以是 LDR 或 HDR。理想的输入图像大小为 1k (1024 x 512)，因为这与 256 x 256 立方体贴图输出最匹配\n  // 加载 HDR 环境贴图\n  useEffect(() => {\n    const envMap = new THREE.TextureLoader().load(\n      '/3333.jpg',\n      (texture) => {\n        //pmrem生成\n        const pmremGenerator = new THREE.PMREMGenerator(gl)\n        pmremGenerator.compileEquirectangularShader()\n\n        const pmremTexture = pmremGenerator.fromEquirectangular(texture)\n        texture.mapping = THREE.EquirectangularRefractionMapping //?设置环境贴图的映射模式 二选一\n        // texture.mapping = THREE.EquirectangularReflectionMapping\n        //环境贴图作用于物体上方法1:场景内全部物体\n        // scene.environment = texture //!全部物体应用环境贴图\n        scene.background = texture //!背景使用jpg贴图\n\n        //方法2:单独设置\n        // materialRef.current.envMap = envMap //材质添加环境map\n        // materialRef.current.needsUpdate = true\n\n        pmremGenerator.dispose()\n      }\n    )\n  }, [])\n\n  //cubecamera创建\n  const cubeCamera = new THREE.WebGLCubeRenderTarget(256)\n  cubeCamera.texture.type = THREE.HalfFloatType\n  const cube = new THREE.CubeCamera(1, 1000, cubeCamera)\n  //材质应用cubecamera\n  <meshStandardMaterial metalness={1} roughness={0.18} ref={materialRef2} envMap={cubeCamera.texture} />",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 128,
+                      "parentId": 40,
+                      "label": "hdr",
+                      "value": "import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'\nconst texture = useLoader(RGBELoader, \"/dam_wall_2k.hdr\")\n",
+                      "children": [],
+                      "resolveSyntax": true
+                    }
+                  ]
+                },
+                {
+                  "id": 125,
+                  "parentId": 34,
+                  "label": "模型",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 189,
+                      "parentId": 125,
+                      "label": "导入obj",
+                      "value": "import { useGLTF } from '@react-three/drei'\nconst { nodes, materials } = useGLTF('/f8.glb')\nuseLayoutEffect(() => {  //修改材质属性\n    console.log(materials)\n    materials['窗'].roughness = 0.0\n    materials['窗'].opacity = 0.6\n    materials['窗'].color = new THREE.Color('white')\n  }, [materials])\n  <primitive object={nodes.Scene}  />\n ",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 192,
+                      "parentId": 125,
+                      "label": "导入obj(带骨骼)",
+                      "value": " const obj = useGLTF('/RobotExpressive.glb')\n  \n  <primitive object={obj.scene} />",
+                      "children": []
+                    },
+                    {
+                      "id": 126,
+                      "parentId": 125,
+                      "label": "导入obj模型(带动画)",
+                      "value": "import { useGLTF, useAnimations } from '@react-three/drei'\nconst obj = useGLTF('/龙.glb') //导入模型,模型路径\nconst animations = useAnimations(obj.animations, obj.scene)\n\n//无限播放\nuseEffect(() => {\n  console.log('animations:', animations.names)//查看动画名称\n  animations2.actions['Walking'].play()//填入动画名称\n  }, [])\n\n//缓出缓进动画\nuseEffect(() => {\n    const action = animations.actions['Flying']\n    action.reset().fadeIn(0.5).play()\n    return () => {\n      action.fadeOut(0.5) //清理\n    }\n  }, [])\n\n  //延迟播放\n  useEffect(() => {\n    //animations.actions.Run.play()//走后切换动作\n    const timeout = setTimeout(() => {\n      animations.actions.Flying.play()\n      animations.actions.Flying.crossFadeFrom(animations.actions.Flying, 1)\n    }, 2000)\n    return () => clearTimeout(timeout)\n  }, [])\n\n<primitive\n        object={obj.scene}\n        scale={1}\n        position={[- 2.5, 0, 2.5]}\n        rotation-y={0.3}\n      />",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 188,
+                      "parentId": 125,
+                      "label": "导入gltf二进制",
+                      "value": "function SuzanneWithLocal() {\n44  const { nodes, materials } = useGLTF('suzanne.glb', '/draco-gltf/') as unknown as GLTFResult\n45\n46  return (\n47    <group dispose={null}>\n48      <mesh material={materials['Material.001']} geometry={(nodes.Suzanne as Mesh).geometry} />\n49    </group>\n50  )\n51}",
+                      "children": []
+                    },
+                    {
+                      "id": 190,
+                      "parentId": 125,
+                      "label": "导入FBX",
+                      "value": "function SuzanneFBX() {\n  let fbx = useFBX('suzanne/suzanne.fbx')\n  return <primitive object={fbx} />\n}",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 22,
+              "parentId": 4,
+              "label": "背景",
+              "folder": true,
+              "children": [
+                {
+                  "id": 23,
+                  "parentId": 22,
+                  "label": "天空",
+                  "value": "<Sky //天空盒子背景\n        distance={450}//天空盒子大小\n        sunPosition={[0, 1, 1]}//太阳方位\n        inclination={0.6}//太阳高度,默认0.6\n        azimuth={0.1}//太阳方位角,默认0.1\n        mieCoefficient={0.005}//最小系数控制蓝天范围，越小蓝多,默认0.005\n        mieDirectionalG={1.0}//最小方向系数控制蓝天范围，越小蓝多,默认0.8,0~1\n        rayleigh={0.4}//天空蓝色深度,默认0.5越小越深\n        turbidity={10}//天空全景变蓝,默认10越大越深,100变阴天\n      />",
+                  "children": []
+                },
+                {
+                  "id": 24,
+                  "parentId": 22,
+                  "label": "自建场景当背景",
+                  "value": "{/* 自建场景用作背景 */}\n      <Environment background resolution={64}>\n        <mesh position={[10, 2, 0]} scale={[1, 3, 10]}>\n          <boxGeometry />\n          <meshBasicMaterial color=\"white\" />\n        </mesh>\n        <mesh position={[-10, 2, 0]} scale={[1, 3, 10]}>\n          <boxGeometry />\n          <meshBasicMaterial color=\"white\" />\n        </mesh>\n        <mesh scale={100}>\n          <sphereGeometry args={[1, 64, 64]} />\n          <LayerMaterial side={THREE.BackSide} color=\"blue\" alpha={1} mode=\"normal\">\n            <Depth colorA=\"#00ffff\" colorB=\"#ff8f00\" alpha={0.5} mode=\"normal\" near={0} far={300} origin={[100, 100, 100]} />\n            <Noise mapping=\"local\" type=\"cell\" scale={0.5} mode=\"softlight\" />\n          </LayerMaterial>\n        </mesh>\n      </Environment>\n    </>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 25,
+                  "parentId": 22,
+                  "label": "hdr",
+                  "value": "{/* hdr背景 */}\n      <Environment background files=\"/moonless_golf_2k.hdr\"\n        // ground={{//地板贴到环境地面\n        //   height: 15,// 用于创建环境贴图的相机高度（默认值：15）\n        //   radius: 60,//世界的半径。（默认 60）\n        //   scale: 1000, // 包含环境纹理的背面投影球体的比例（默认值：1000）\n        // }}\n      />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 26,
+                  "parentId": 22,
+                  "label": "纯色",
+                  "value": "<color args={['ivory']} attach=\"background\" />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 27,
+                  "parentId": 22,
+                  "label": "自定义天空盒子",
+                  "value": "{/* 自定义天空盒子 */}\n      <Environment\n        background={true} // 显示背景,默认false\n        resolution={256} //分辨率\n        frames={Infinity} //帧无限，用于动画\n        blur={0} //模糊1等于看不到背景 介于 0 和 1 之间的模糊因子（默认值：0)\n        files={['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png']}//用于盒子环境\n        path='/' //files贴图路径\n        preset={'sunset'}//内置环境，不能用在生产 sunset warehouse \n        scene={undefined} // 添加传递自定义 THREE.Scene 的能力，也可以是 ref\n      // encoding={undefined} // 添加传递自定义 THREE.TextureEncoding 的能力（默认：THREE.sRGBEncoding 用于文件数组和 THREE.LinearEncoding 用于单个纹理\n      />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 28,
+                  "parentId": 22,
+                  "label": "霓虹光",
+                  "value": " {/* 霓虹光 */}\n      <Environment files=\"/moonless_golf_2k.hdr\">\n        <Lightformer\n          position-z={-2}\n          scale={2} color=\"red\"\n          intensity={10}\n          form=\"ring\" //环形光板 circle | ring | rect (optional, default = rect)\n          target={[0, 0, 0]} //光的Target position\n        />\n      </Environment>",
+                  "children": []
+                },
+                {
+                  "id": 29,
+                  "parentId": 22,
+                  "label": "星星",
+                  "value": "{/* 星星 */}\n      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} speed={1}\n        fade //开启星星变小,默认false\n      />",
+                  "children": []
+                },
+                {
+                  "id": 127,
+                  "parentId": 22,
+                  "label": "地板贴到环境地面",
+                  "value": "<Environment\n  ground={{\n    height: 5, // 用于创建环境贴图的相机高度（默认值：15）\n    radius: 40, // 世界的半径。 （默认 60）\n    scale: 220, // 包含环境纹理的背面投影球体的比例（默认值：1000）\n  }}\n/>",
+                  "children": [],
+                  "resolveSyntax": true
+                }
+              ]
+            },
+            {
+              "id": 100,
+              "parentId": 4,
+              "label": "粒子",
+              "folder": true,
+              "children": [
+                {
+                  "id": 101,
+                  "parentId": 100,
+                  "label": "粒子系统",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 104,
+                      "parentId": 101,
+                      "label": "粒子系统(不带烟雾)",
+                      "value": "import React, { Suspense, useLayoutEffect, useEffect, useMemo, useRef, useState } from 'react'\nimport { useThree, extend, useFrame } from '@react-three/fiber'\nimport { shaderMaterial, Points } from '@react-three/drei'\nimport * as THREE from 'three'\nimport vertex from './vvvruan.glsl'\nimport fragment from './fffruan.glsl'\nimport * as random from 'maath/random'\n\n//?粒子纹理\nlet texture = new THREE.TextureLoader().load('/${1:fire2}.jpg', (texture) => { texture['name'] = 'one' })\n\n//shaderMaterial\nconst My3Material = shaderMaterial(\n  {\n    color: new THREE.Color(0.8, 0.1, 1.0),\n    pointMultiplier: window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0)),\n    diffuseTexture: texture\n  },\n  vertex,\n  fragment\n)\nextend({ My3Material })\n\n\n\nexport default function Fire5 () {\n  const { gl, scene, camera, size } = useThree() //获取gl mesh 相机 \n  const poref = useRef()\n\n\n  //线性样条函数\n  function createLinearSpline (lerp) {\n    const points = []\n\n    function addPoint (t, d) {\n      points.push([t, d])\n    }\n\n    function get (t) {\n      let p1 = 0\n\n      for (let i = 0; i < points.length; i++) {\n        if (points[i][0] >= t) {\n          break\n        }\n        p1 = i\n      }\n\n      const p2 = Math.min(points.length - 1, p1 + 1)\n\n      if (p1 == p2) {\n        return points[p1][1]\n      }\n\n      return lerp(\n        (t - points[p1][0]) / (\n          points[p2][0] - points[p1][0]),\n        points[p1][1], points[p2][1])\n    }\n\n    return { addPoint, get }\n  }\n  //创建透明样条实例\n  let alphaSpline = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  //! 可调参数 \n  alphaSpline.addPoint(0.0, 0.0)\n  alphaSpline.addPoint(0.1, 1.0)\n  alphaSpline.addPoint(0.6, 1.0)\n  alphaSpline.addPoint(1.0, 0.0)\n\n\n  let colourSpline = new createLinearSpline((t, a, b) => {\n    const c = a.clone()\n    return c.lerp(b, t)\n  })\n\n  //! 可调参数 调整多种颜色\n  colourSpline.addPoint(0.0, new THREE.Color(0xFFFF80))\n  colourSpline.addPoint(1.0, new THREE.Color(0xFF8080))\n  // colourSpline.addPoint(1.0, new THREE.Color(0x3dff2f))\n\n  let sizeSpline = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  //! 可调参数 调整粒子大小\n  sizeSpline.addPoint(0.0, 1.0)\n  sizeSpline.addPoint(0.5, 10.0)\n  sizeSpline.addPoint(0.8, 20.0)\n  sizeSpline.addPoint(1.0, 1.0)\n\n  let gdfsghk\n  let particles = []\n\n  //* 生成粒子\n  function Addlizi (timeElapsed) {\n    if (!gdfsghk) {\n      gdfsghk = 0.0\n    }\n    gdfsghk += timeElapsed\n    let n = Math.floor(gdfsghk * 90.0) //! 可调参数 粒子总量 75越小越少\n    gdfsghk -= n / 90.0   //! 可调参数 粒子总量 75越小越少\n\n    for (let i = 0; i < n; i++) {\n      const life = (Math.random() * 0.75 + 0.25) * 1.0\n      particles.push({\n        position: new THREE.Vector3( //! 可调参数 粒子范围\n          (Math.random() * 2 - 1) * 1.0,\n          (Math.random() * 2 - 1) * 1.0,\n          (Math.random() * 2 - 1) * 1.0),\n        size: (Math.random() * 0.5 + 0.5) * 10.2, //! 可调参数 粒子大小\n        colour: new THREE.Color(),\n        alpha: 1.0,\n        life: life,\n        maxLife: life,\n        rotation: Math.random() * 3.0 * Math.PI, //! 可调参数\n        velocity: new THREE.Vector3(0, 15, 0), //! 可调参数 方向\n      })\n    }\n  }\n\n  //* 更新粒子\n  function Updatelizi (timeElapsed) {\n    for (let p of particles) {\n      p.life -= timeElapsed\n    }\n    particles = particles.filter(p => {//过滤出life>0的\n      return p.life > 0.0\n    })\n    for (let p of particles) {\n      const t = 1.0 - p.life / p.maxLife\n\n      p.rotation += timeElapsed * 0.5\n      p.alpha = alphaSpline.get(t)\n      p.currentSize = p.size * sizeSpline.get(t)\n      p.colour.copy(colourSpline.get(t))\n\n      p.position.add(p.velocity.clone().multiplyScalar(timeElapsed))\n\n      const drag = p.velocity.clone()\n      drag.multiplyScalar(timeElapsed * 0.1)\n      drag.x = Math.sign(p.velocity.x) * Math.min(Math.abs(drag.x), Math.abs(p.velocity.x))\n      drag.y = Math.sign(p.velocity.y) * Math.min(Math.abs(drag.y), Math.abs(p.velocity.y))\n      drag.z = Math.sign(p.velocity.z) * Math.min(Math.abs(drag.z), Math.abs(p.velocity.z))\n      p.velocity.sub(drag)\n\n      particles.sort((a, b) => {\n        const d1 = camera.position.distanceTo(a.position)\n        const d2 = camera.position.distanceTo(b.position)\n\n        if (d1 > d2) {\n          return -1\n        }\n\n        if (d1 < d2) {\n          return 1\n        }\n\n        return 0\n      })\n    }\n  }\n\n  useFrame((state, d) => {\n    const time = state.clock.elapsedTime * 0.01 * d\n    Addlizi(time)\n    Updatelizi(time)\n    let positions = []\n    let sizes = []\n    let colours = []\n    let angles = []\n    for (let p of particles) {\n      positions.push(p.position.x, p.position.y, p.position.z)\n      colours.push(p.colour.r, p.colour.g, p.colour.b, p.alpha)\n      sizes.push(p.currentSize)\n      angles.push(p.rotation)\n    }\n\n    //数组转浮点数组\n    positions = Float32Array.from(positions)\n    poref.current.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))\n    poref.current.geometry.setAttribute('size', new THREE.BufferAttribute(Float32Array.from(sizes), 1))\n    poref.current.geometry.setAttribute('colour', new THREE.BufferAttribute(Float32Array.from(colours), 4))\n    poref.current.geometry.setAttribute('angle', new THREE.BufferAttribute(Float32Array.from(angles), 1))\n\n    poref.current.geometry.attributes.position.needsUpdate = true\n    poref.current.geometry.attributes.size.needsUpdate = true\n    poref.current.geometry.attributes.colour.needsUpdate = true\n    poref.current.geometry.attributes.angle.needsUpdate = true\n  })\n\n  return (\n    <>\n      <Points\n        position-x={2}\n        scale={0.5}\n        limit={10000} //可选：最大项目数量（用于计算缓冲区大小）\n        range={1000} // 可选: 显示范围\n        ref={poref}\n        positions={random.inBox(new Float32Array(3), { sides: [10, 10, 10] })} //用maath生成数组后放入\n      // colours={null} //顶点色\n      // sizes={null} //顶点大小\n      // rotation={[0, Math.PI, Math.PI]}\n      // translateX={10}\n      >\n        <my3Material\n          // size={10.5}\n          // color={new THREE.Color(0xff0000)}\n          sizeAttenuation    //默认true开启，近大远小\n          // alphaMap={pointtexture} //黑色背景的粒子贴图\n          transparent\n          depthTest\n          depthWrite={false}   //不要在该深度缓冲区中写入粒子 \n          blending={THREE.AdditiveBlending} //粒子与其他物体重叠时，混合颜色更具有饱和效果\n          vertexColors //开启后粒子使用顶点颜色，color属性需要删除\n        />\n        {/* <pointsMaterial\n          size={100.5}\n          // color={new THREE.Color(0xff0000)}\n          sizeAttenuation    //默认true开启，近大远小\n          transparent\n          alphaTest={0.001}  //比0.001大的像素都会透明\n          depthWrite={false}   //不要在该深度缓冲区中写入粒子\n          blending={THREE.AdditiveBlending} //粒子与其他物体重叠时，混合颜色更具有饱和效果\n        // vertexColors //开启后粒子使用顶点颜色，color属性需要删除\n        /> */}\n      </Points>\n\n    </>\n  )\n}",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 105,
+                      "parentId": 101,
+                      "label": "粒子系统vertex.glsl",
+                      "value": "uniform float pointMultiplier;\nattribute float size;\nattribute float angle;\nattribute vec4 colour;\nvarying vec4 vColour;\nvarying vec2 vAngle;\nvoid main() {\n  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);\n  gl_Position = projectionMatrix * mvPosition;\n  gl_PointSize = size * pointMultiplier / gl_Position.w;\n  vAngle = vec2(cos(angle), sin(angle));\n  vColour = colour;\n}",
+                      "children": []
+                    },
+                    {
+                      "id": 106,
+                      "parentId": 101,
+                      "label": "粒子系统frag.glsl",
+                      "value": "uniform sampler2D diffuseTexture;\nvarying vec4 vColour;\nvarying vec2 vAngle;\nvoid main() {\n  vec2 coords = (gl_PointCoord - 0.5) * mat2(vAngle.x, vAngle.y, -vAngle.y, vAngle.x) + 0.5;\n  gl_FragColor = texture2D(diffuseTexture, coords) * vColour;\n}",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 107,
+                  "parentId": 100,
+                  "label": "粒子系统(带烟雾)",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 109,
+                      "parentId": 107,
+                      "label": "粒子系统(带烟雾_混合技术)",
+                      "value": "import React, { Suspense, useLayoutEffect, useEffect, useMemo, useRef, useState } from 'react'\nimport { Canvas, useThree, extend, useFrame } from '@react-three/fiber'\nimport { OrbitControls, Box, shaderMaterial, Points } from '@react-three/drei'\nimport * as THREE from 'three'\nimport vertex from './vvvyanwu.glsl'\nimport fragment from './fffyanwu.glsl'\nimport * as random from 'maath/random'\nimport { useControls } from 'leva'\n\n//纹理,使用png带透明图片\nlet texture = new THREE.TextureLoader().load('/fire2.png', (texture) => { texture['name'] = 'one' })\n\n//shaderMaterial\nconst MyMaterial = shaderMaterial(\n  {\n    color: new THREE.Color(0.8, 0.1, 1.0),\n    // uBig: 0.2,\n    // uBigx: 4.0,\n    // u_time: 0,\n    pointMultiplier: window.innerHeight / (2.0 * Math.tan(0.5 * 60.0 * Math.PI / 180.0)),\n    diffuseTexture: texture\n  },\n  vertex,\n  fragment\n)\nextend({ MyMaterial })\n\n\n\nexport default function Fire4 () {\n  const { camera } = useThree() //获取gl mesh 相机 \n  const poref = useRef()\n\n\n  //创建线性样条对象\n  function createLinearSpline (lerp) {\n    let points = []\n\n    function addPoint (t, d) {//?添加粒子方法，1索引 2值\n      points.push([t, d])\n    }\n\n    function get (t) {//?获取粒子方法\n      let p1 = 0\n\n      for (let i = 0; i < points.length; i++) { //循环添加的粒子\n        if (points[i][0] >= t) {\n          break\n        }\n        p1 = i\n      }\n\n      const p2 = Math.min(points.length - 1, p1 + 1)\n\n      if (p1 == p2) {\n        return points[p1][1]\n      }\n\n      return lerp(\n        (t - points[p1][0]) / (\n          points[p2][0] - points[p1][0]),\n        points[p1][1], points[p2][1])\n    }\n\n    return { addPoint, get }\n  }\n\n  //*创建粒子\n  let alphaSplineF = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  //!可调整透明度 粒子主体\n  alphaSplineF.addPoint(0.0, 0.0)\n  alphaSplineF.addPoint(0.1, 1.0)\n  alphaSplineF.addPoint(0.5, 1.0)\n  alphaSplineF.addPoint(1.0, 0.0)\n\n\n  let colourSplineF = new createLinearSpline((t, a, b) => {\n    const c = a.clone()\n    return c.lerp(b, t)\n  })\n  //!可调整多种颜色\n  colourSplineF.addPoint(0.0, new THREE.Color(0xFFFF80))\n  colourSplineF.addPoint(1.0, new THREE.Color(0xFF8080))\n\n  let sizeSplineF = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  //!可调整粒子大小\n  sizeSplineF.addPoint(0.0, 1.0)\n  sizeSplineF.addPoint(0.25, 7.0)\n  sizeSplineF.addPoint(0.5, 2.5)\n  sizeSplineF.addPoint(1.0, 0.0)\n\n  let alphaSplineS = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  //!可调整 烟雾\n  alphaSplineS.addPoint(0.0, 0.0)\n  alphaSplineS.addPoint(0.1, 1.0)\n  alphaSplineS.addPoint(0.5, 1.0)\n  alphaSplineS.addPoint(1.0, 0.0)\n\n  let colourSplineS = new createLinearSpline((t, a, b) => {\n    const c = a.clone()\n    return c.lerp(b, t)\n  })\n  //!可调整\n  colourSplineS.addPoint(0.0, new THREE.Color(0x666676))\n  colourSplineS.addPoint(1.0, new THREE.Color(0x3a3a3a))\n\n  let sizeSplineS = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  //!可调整 \n  sizeSplineS.addPoint(0.0, 1.0)\n  sizeSplineS.addPoint(0.5, 18.0)\n  sizeSplineS.addPoint(1.0, 16.0)\n\n  let alphaSplineX = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  //!可调整 火花\n  alphaSplineX.addPoint(0.0, 0.0)\n  alphaSplineX.addPoint(0.1, 1.0)\n  alphaSplineX.addPoint(0.9, 1.0)\n  alphaSplineX.addPoint(1.0, 0.0)\n\n  let colourSplineX = new createLinearSpline((t, a, b) => {\n    const c = a.clone()\n    return c.lerp(b, t)\n  })\n  //!可调整\n  colourSplineX.addPoint(0.0, new THREE.Color(0xFF8080))\n  colourSplineX.addPoint(1.0, new THREE.Color(0xFFFFFF))\n\n  let sizeSplineX = new createLinearSpline((t, a, b) => {\n    return a + t * (b - a)\n  })\n  sizeSplineX.addPoint(0.0, 1.0)\n  sizeSplineX.addPoint(1.0, 1.0)\n\n  let rateLimiter = 0.0\n\n\n\n\n  let gdfsghk\n  let particles = []\n\n  function ParticleF () { //! 可调整 粒子主体\n    const life = (Math.random() * 0.75 + 0.25) * 10.0\n    return {\n      position: new THREE.Vector3( //粒子范围\n        (Math.random() * 2 - 1) * 2.0,\n        (Math.random() * 2 - 1) * 2.0,\n        (Math.random() * 2 - 1) * 2.0),\n      size: (Math.random() * 0.5 + 0.5) * 2.0, //粒子大小\n      colour: new THREE.Color(),\n      alpha: 1.0,\n      life: life,\n      maxLife: life,\n      rotation: Math.random() * 2.0 * Math.PI,\n      velocity: new THREE.Vector3(0, 4, 0), //方向\n      blend: 0.0\n    }\n  }\n\n  function ParticleX () { //! 可调整 散开的粒子火花\n    const life = (Math.random() * 0.75 + 0.25) * 2.0\n    const dirX = (Math.random() * 2.0 - 1.0) * 3.0\n    const dirY = (Math.random() * 2.0 - 1.0) * 3.0\n    return {\n      position: new THREE.Vector3( //粒子范围\n        (Math.random() * 2 - 1) * 1.0,\n        13 + (Math.random() * 2 - 1) * 1.0,\n        (Math.random() * 2 - 1) * 1.0),\n      size: (Math.random() * 0.5 + 0.5) * 0.5, //粒子大小\n      colour: new THREE.Color(),\n      alpha: 1.0,\n      life: life,\n      maxLife: life,\n      rotation: Math.random() * 2.0 * Math.PI,\n      velocity: new THREE.Vector3(dirX, 2, dirY), //方向\n      blend: 0.0\n    }\n  }\n  function ParticleS () { //! 可调整 烟雾\n    const life = (Math.random() * 0.75 + 0.25) * 15.0\n    return {\n      // particles.push({\n      position: new THREE.Vector3( //烟雾范围\n        (Math.random() * 2 - 1) * 1.3,\n        11 + (Math.random() * 2 - 1) * 3.0,\n        (Math.random() * 2 - 1) * 1.3),\n      size: (Math.random() * 0.5 + 0.5) * 0.7, //粒子大小\n      colour: new THREE.Color(),\n      alpha: 1.0,\n      life: life,\n      maxLife: life,\n      rotation: Math.random() * 2.0 * Math.PI,\n      velocity: new THREE.Vector3(0, 0.8, 0), //方向\n      blend: 1.0 //增加烟雾效果\n    }\n    // })\n  }\n  //* 生成粒子\n  function Addlizi (timeElapsed) {\n    rateLimiter += timeElapsed\n    const n = Math.floor(rateLimiter * 75.0) //!粒子数量 越小越少\n    rateLimiter -= n / 75.0\n\n    for (let i = 0; i < n; i++) {\n      const p = ParticleF()\n      particles.push(p)\n    }\n    for (let i = 0; i < n; i++) {\n      const p = ParticleS()\n      particles.push(p)\n    }\n    for (let i = 0; i < n * 2; i++) {\n      const p = ParticleX()\n      particles.push(p)\n    }\n  }\n\n  //* 更新粒子\n  function Updatelizi (timeElapsed) {\n    for (let p of particles) {\n      p.life -= timeElapsed\n    }\n    particles = particles.filter(p => {//过滤出life>0的\n      return p.life > 0.0\n    })\n    for (let p of particles) {\n      const t = 1.0 - p.life / p.maxLife\n      p.rotation += timeElapsed * 0.5\n      if (p.blend == 0.0) {\n        if (p.velocity.x != 0.0) {\n          p.alpha = alphaSplineX.get(t)\n          p.currentSize = p.size * sizeSplineX.get(t)\n          p.colour.copy(colourSplineX.get(t))\n        } else {\n          p.alpha = alphaSplineF.get(t)\n          p.currentSize = p.size * sizeSplineF.get(t)\n          p.colour.copy(colourSplineF.get(t))\n        }\n      } else {\n        p.alpha = alphaSplineS.get(t)\n        p.currentSize = p.size * sizeSplineS.get(t)\n        p.colour.copy(colourSplineS.get(t))\n      }\n\n\n      p.position.add(p.velocity.clone().multiplyScalar(timeElapsed))\n\n      const drag = p.velocity.clone()\n      drag.multiplyScalar(timeElapsed * 0.1)\n      drag.x = Math.sign(p.velocity.x) * Math.min(Math.abs(drag.x), Math.abs(p.velocity.x))\n      drag.y = Math.sign(p.velocity.y) * Math.min(Math.abs(drag.y), Math.abs(p.velocity.y))\n      drag.z = Math.sign(p.velocity.z) * Math.min(Math.abs(drag.z), Math.abs(p.velocity.z))\n      p.velocity.sub(drag)\n\n      particles.sort((a, b) => {\n        const d1 = camera.position.distanceTo(a.position)\n        const d2 = camera.position.distanceTo(b.position)\n\n        if (d1 > d2) {\n          return -1\n        }\n\n        if (d1 < d2) {\n          return 1\n        }\n\n        return 0\n      })\n    }\n  }\n\n\n\n\n  useFrame((state, d) => {\n    const time = state.clock.elapsedTime * 0.1 * d\n    Addlizi(time)\n    Updatelizi(time)\n    let positions = []\n    let sizes = []\n    let colours = []\n    let angles = []\n    let blends = []\n    const box = new THREE.Box3()\n    for (let p of particles) {\n      positions.push(p.position.x, p.position.y, p.position.z)\n      colours.push(p.colour.r, p.colour.g, p.colour.b, p.alpha)\n      sizes.push(p.currentSize)\n      angles.push(p.rotation)\n      blends.push(p.blend)\n    }\n\n    positions = Float32Array.from(positions)\n    poref.current.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))\n    poref.current.geometry.setAttribute('size', new THREE.BufferAttribute(Float32Array.from(sizes), 1))\n    poref.current.geometry.setAttribute('colour', new THREE.BufferAttribute(Float32Array.from(colours), 4))\n    poref.current.geometry.setAttribute('angle', new THREE.BufferAttribute(Float32Array.from(angles), 1))\n    poref.current.geometry.setAttribute('blend', new THREE.BufferAttribute(Float32Array.from(blends), 1))\n\n    poref.current.geometry.attributes.position.needsUpdate = true\n    // console.log('poref.current.geometry.attributes.position:', poref.current.geometry.attributes.position)\n    // console.log('poref.current.geometry.attributes:', poref.current.geometry.attributes)\n    poref.current.geometry.attributes.size.needsUpdate = true\n    poref.current.geometry.attributes.colour.needsUpdate = true\n    poref.current.geometry.attributes.angle.needsUpdate = true\n    poref.current.geometry.attributes.blend.needsUpdate = true\n\n    poref.current.geometry.boundingBox = box\n    poref.current.geometry.boundingSphere = new THREE.Sphere()\n    box.getBoundingSphere(poref.current.geometry.boundingSphere)\n  })\n\n\n\n\n\n\n  return (\n    <>\n      <Points\n        scale={0.4}\n        position-x={10}\n        limit={10000} //可选：最大项目数量（用于计算缓冲区大小）\n        range={1000} // 可选: 显示范围\n        ref={poref}\n        positions={random.inBox(new Float32Array(3), { sides: [10, 10, 10] })} //用maath生成数组后放入\n      // colours={null} //顶点色\n      // sizes={null} //顶点大小\n      // rotation={[0, Math.PI, Math.PI]}\n      // translateX={10}\n      >\n        {/* <sphereBufferGeometry args={[5, 16, 16]} />  //已物体形状为顶点 */}\n        <myMaterial\n          // size={10.5}\n          // color={new THREE.Color(0xff0000)}\n          sizeAttenuation    //默认true开启，近大远小\n          // alphaMap={pointtexture} //黑色背景的粒子贴图\n          transparent\n          depthTest\n          depthWrite={false}   //不要在该深度缓冲区中写入粒子\n          blending={THREE.CustomBlending} //粒子与其他物体重叠时，混合颜色更具有饱和效果\n          blendEquation={THREE.AddEquation} //混合方程式\n          blendSrc={THREE.OneFactor} //混合源 THREE.OneFactor\n          blendDst={THREE.OneMinusSrcAlphaFactor} //混合目标\n          vertexColors //开启后粒子使用顶点颜色，color属性需要删除\n        />\n      </Points>\n    </>\n  )\n}",
+                      "children": []
+                    },
+                    {
+                      "id": 110,
+                      "parentId": 107,
+                      "label": "vertex.glsl",
+                      "value": "uniform float pointMultiplier;\nattribute float size;\nattribute float angle;\nattribute float blend;\nattribute vec4 colour;\nvarying vec4 vColour;\nvarying vec2 vAngle;\nvarying float vBlend;\nvoid main() {\n  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);\n  gl_Position = projectionMatrix * mvPosition;\n  gl_PointSize = size * pointMultiplier / gl_Position.w;\n  vAngle = vec2(cos(angle), sin(angle));\n  vColour = colour;\n  vBlend = blend;\n}",
+                      "children": []
+                    },
+                    {
+                      "id": 111,
+                      "parentId": 107,
+                      "label": "frag.glsl",
+                      "value": "uniform sampler2D diffuseTexture;\nvarying vec4 vColour;\nvarying vec2 vAngle;\nvarying float vBlend;\nvoid main() {\n  vec2 coords = (gl_PointCoord - 0.5) * mat2(vAngle.x, vAngle.y, -vAngle.y, vAngle.x) + 0.5;\n  gl_FragColor = texture2D(diffuseTexture, coords) * vColour;\n  gl_FragColor.xyz *= gl_FragColor.w;\n  gl_FragColor.w *= vBlend;\n}",
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": 213,
+                  "parentId": 100,
+                  "label": "少量粒子(适用几百内 point map性能差)",
+                  "value": "import React, { useRef } from \"react\"\nimport { useGLTF, Merged, Box, Sphere, Points, Point } from \"@react-three/drei\"\nimport * as random from 'maath/random'\nimport * as THREE from 'three'\nexport function Test4 () {\n\n\n  //返回0:position: [23.736419640131157, -37.06880099744308, -10.221151192768438] \n  //     rotation:  [0.33056863301000233, 5.050181118551874, 6.1239166236066085]\n  //供克隆随机位置和旋转使用\n  const positions = [...Array(800)].map(() => ({\n    position: [40 - Math.random() * 80, 40 - Math.random() * 80, 40 - Math.random() * 80],\n    color: new THREE.Color(Math.random() * 0xffffff)\n  }))\n  return (\n    <>\n      <Points\n        limit={1000} // Optional: max amount of items (for calculating buffer size)\n        range={1000} // Optional: draw-range\n        positions={positions.position} //用maath生成数组后放入\n        rotations={positions.rotation}\n      // onClick={onClick}\n      >\n        <pointsMaterial vertexColors />\n        {positions.map((props, i) => (\n          <Point key={i} position={props.position} color={props.color} onClick={onClick} />\n        ))}\n        {/* <Point position={[1, 2, 3]} color=\"red\" onClick={onClick} onPointerOver={onPointerOver} />\n        <Point position={[2, 3, 3]} color=\"red\" onClick={onClick} onPointerOver={onPointerOver} /> */}\n      // As many as you want, make them conditional, mount/unmount them, lazy load them, etc ...\n      </Points> \n     \n    </>\n  )\n}",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 214,
+                  "parentId": 100,
+                  "label": "大量粒子",
+                  "value": "import React, { useRef } from \"react\"\nimport { useGLTF, Merged, Box, Sphere, Points, Point } from \"@react-three/drei\"\nimport * as random from 'maath/random'\nimport * as THREE from 'three'\nexport function Test4 () {\n  const poref = useRef()\n\n  return (\n    <>\n\n      <Points\n        limit={10000} //可选：最大项目数量（用于计算缓冲区大小）\n        range={1000} // 可选: 显示范围\n        ref={poref}\n        positions={random.inBox(new Float32Array(10000), { sides: [10, 10, 10] })} //用maath生成数组后放入\n        colors={random.inBox(new Float32Array(10000), { sides: [10, 10, 10] })} //顶点色\n        // size={sizeBuffer} //顶点大小\n        rotation={[0, Math.PI, Math.PI]}\n        translateX={10}\n      >\n        <pointsMaterial\n          size={0.5}\n          // color={new THREE.Color(0xff0000)}\n          sizeAttenuation    //默认true开启，近大远小\n          // alphaMap={pointtexture} //黑色背景的粒子贴图\n          transparent\n          alphaTest={0.001}  //比0.001大的像素都会透明\n          depthWrite={false}   //不要在该深度缓冲区中写入粒子\n          blending={THREE.AdditiveBlending} //粒子与其他物体重叠时，混合颜色更具有饱和效果\n          vertexColors //开启后粒子使用顶点颜色，color属性需要删除\n        />\n      </Points>\n\n    </>\n  )\n}\n",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 32,
+              "parentId": 4,
+              "label": "噪声",
+              "folder": true,
+              "children": [
+                {
+                  "id": 33,
+                  "parentId": 32,
+                  "label": "perlin 3D",
+                  "value": "import { ImprovedNoise } from 'three/addons/math/ImprovedNoise.js'\n  const perlin = new ImprovedNoise() //创建perlin噪声\n  (128 + 128 * perlin.noise(x * scale / 1.5, y * scale, z * scale / 1.5)) * d // !使用noise",
+                  "children": [],
+                  "resolveSyntax": true
+                }
+              ]
+            },
+            {
+              "id": 112,
+              "parentId": 4,
+              "label": "工具",
+              "folder": true,
+              "children": [
+                {
+                  "id": 113,
+                  "parentId": 112,
+                  "label": "Pivot变化工具",
+                  "value": "<PivotControls\n        // ref={controlsref}\n        anchor={[0, 1, 0]}//控件中心位置\n        depthTest={false}//遮挡也能看见\n        annotations //显示变化多少\n        visible></PivotControls>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 120,
+                  "parentId": 112,
+                  "label": "滚动条(不可于其他控制器一起使用)",
+                  "value": " <ScrollControls\n          pages={3} //滚动页面数量=滚动总范围\n          // infinite   //无限滚动 常用于水平滚动，到底后返回到顶部,默认false\n          // horizontal //水平滚动,默认false\n          distance={1}//增加滚动条行程的一个因素，默认1, 总行程=pages*distance\n          damping={0.2}//摩擦力，以秒为单位，默认值：0.2（1/5 秒）0=无阻尼惯性\n          maxSpeed={Infinity} //最大速度,默认Infinity\n        >\n          {/* 滚动条范围 */}\n\n <Scroll  //滚动影响物体，向下滚动物体Y往上\n      >\n        {/* 滚动连带影响到物体 */}\n      </Scroll>\n        </ScrollControls>\n\n//使用滚动参数\nconst scroll = useScroll()\n  useFrame((state, d) => {\n    // console.log('scroll:', scroll.offset) //当前滚动条位置带阻尼\n    // console.log('scroll:', scroll.delta)//滚动帧率\n    // console.log('scroll:', scroll.eps)//精度\n    // console.log('scroll:', scroll.fill)//?\n    // console.log('scroll:', scroll.fixed)//?\n    // console.log(scroll.scroll.current)//当前滚动条位置不带阻尼\n    // console.log(scroll.range(0, 1 / 3))//参数1 滚动条起始点，参数2 总进度缩短1/3 参数3 总进度上下扩张\n    // console.log(scroll.range(1 / 3, 1 / 3))//\n    // console.log(scroll.range(1 / 3, 1 / 3, 0.5))//\n    // console.log(scroll.curve(0, 1))//0，1代表 前半段0-1 后半段1-0,可做回滚动画\n    console.log(scroll.visible(0, 1 / 2))//用于判断 参数1 起始点 参数2终点，总进度0-1 之间在此区间内返回true否则false\n  })",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 121,
+                  "parentId": 112,
+                  "label": "演示控件(适用小场景模型)",
+                  "value": "<PresentationControls\n        enabled={true} // 可以通过将其设置为false来禁用控件\n        global={false} // 全球旋转或拖动模型\n        cursor={true} // 是否在阻力上切换火车样式\n        snap={false} // Snap-back to center  \n        speed={1} // 速度因子\n        zoom={1} // 缩放因子达到一半的极性最大值\n        rotation={[0, 0, 0]} // 默认旋转\n        polar={[0, Math.PI / 2]} // 垂直极限\n        azimuth={[-Infinity, Infinity]} // 水平极限\n        config={{ mass: 1, tension: 170, friction: 26 }} // Spring config\n        domElement={events.connected} // 该控制器的DOM元素事件将附加到\n      >\n        <mesh />\n      </PresentationControls>",
+                  "children": []
+                },
+                {
+                  "id": 122,
+                  "parentId": 112,
+                  "label": "xyz轴显示小控件(无法与相机控件一起使用)",
+                  "value": "<GizmoHelper\n        alignment=\"bottom-right\" // widget alignment within scene\n        margin={[80, 80]} // widget margins (X, Y)\n      // onUpdate=//{/* called during camera animation  */}\n      // onTarget=//{/* return current camera target (e.g. from orbit controls) to center animation */}\n      >\n        <GizmoViewport axisColors={['red', 'green', 'blue']} labelColor=\"black\" />\n        {/* alternative: <GizmoViewcube /> */}\n      </GizmoHelper>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 160,
+                  "parentId": 112,
+                  "label": "帧率性能查看工具",
+                  "value": "<Stats showPanel={0} className=\"stats\" />",
+                  "children": []
+                },
+                {
+                  "id": 161,
+                  "parentId": 112,
+                  "label": "帧率性能查看工具(含几何数)",
+                  "value": "import { Perf } from 'r3f-perf'\n<Perf position='top-left' chart={{ hz: 50, length: 120, }} />\n",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 227,
+                  "parentId": 112,
+                  "label": "蒙版裁切(固定视角才有用)",
+                  "value": "import React, { useRef, useState } from \"react\"\nimport { Mask, useMask, PivotControls } from \"@react-three/drei\"\nimport { useFrame, useThree } from '@react-three/fiber'\nimport * as THREE from 'three'\nexport function Test4 () {\n\n  const stencil = useMask(1)\n  return (\n    <>\n      {/* 蒙版裁切 */}\n      <PivotControls\n        anchor={[0, 1, 0]}//控件中心位置\n        depthTest={false}//遮挡也能看见\n        annotations //显示变化多少\n        visible>\n        <Mask id={1} position={[0, 0, 0.95]}>\n          <planeGeometry args={[2, 2]} />\n          <meshBasicMaterial />\n        </Mask>\n      </PivotControls>\n\n      <mesh>\n        <boxBufferGeometry args={[1, 1, 1]} />\n        <meshStandardMaterial {...stencil} />\n      </mesh>\n    </>\n  )\n}\n",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 228,
+                  "parentId": 112,
+                  "label": "居中(对齐轴线)",
+                  "value": " //top 对齐x之上 \n <Center top  >\n        <mesh position-x={5}>\n          <boxBufferGeometry args={[1, 1, 1]} />\n          <meshStandardMaterial />\n        </mesh>\n      </Center>",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 229,
+                  "parentId": 112,
+                  "label": "锚定(把子组件固定在父组件某个位置,HTML很有用)",
+                  "value": "{/* //父组件 */}\n      <Box>\n          {/* //父组件的锚定 */}\n        <BBAnchor anchor={[1, 1, 1]}>\n          {/* 子组件全部固定在父组件的锚定 */}\n          <Box />\n          <Html center>\n            <span>Hello world!</span>\n          </Html>\n        </BBAnchor>\n      </Box>",
+                  "children": []
+                },
+                {
+                  "id": 230,
+                  "parentId": 112,
+                  "label": "居中相机对准物体+选择聚焦",
+                  "value": "import React, { useRef, useState } from \"react\"\nimport { Bounds, Box, useBounds } from \"@react-three/drei\"\nimport { useFrame, useThree } from '@react-three/fiber'\nimport * as THREE from 'three'\nexport function Test4 () {\n\n  return (\n    <>\n      {/* //相机居中 */}\n      <Bounds\n        fit //在第一次渲染时适合当前视图\n        clip //将相机设置为近/远平面\n        observe //将在窗口调整大小时触发\n        damping={5} //!聚焦速度\n        margin={2.2} //!聚焦远近\n      >\n        <SelectToZoom>\n          <Box name=\"Curly\" position={[1, -11, -20]} rotation={[2, 0, -0]} />\n          <Box name=\"DNA\" position={[20, 0, -17]} rotation={[1, 1, -2]} />\n          <Box name=\"Headphones\" position={[20, 2, 4]} rotation={[1, 0, -1]} />\n          <Box name=\"Notebook\" position={[-21, -15, -13]} rotation={[2, 0, 1]} />\n          <Box name=\"Rocket003\" position={[18, 15, -25]} rotation={[1, 1, 0]} />\n          <Box name=\"Roundcube001\" position={[-25, -4, 5]} rotation={[1, 0, 0]} scale={0.5} />\n          <Box name=\"Table\" position={[1, -4, -28]} rotation={[1, 0, -1]} scale={0.5} />\n          <Box name=\"VR_Headset\" position={[7, -15, 28]} rotation={[1, 0, -1]} scale={5} />\n          <Box name=\"Zeppelin\" position={[-20, 10, 10]} rotation={[3, -1, 3]} scale={0.005} />\n        </SelectToZoom>\n      </Bounds>\n    </>\n  )\n}\n//选择聚焦父组件\nfunction SelectToZoom ({ children }) {\n  const api = useBounds()\n  return (\n    <group onClick={(e) => (e.stopPropagation(), e.delta <= 2 && api.refresh(e.object).fit())} onPointerMissed={(e) => e.button === 0 && api.refresh().fit()}>\n      {children}\n    </group>\n  )\n}",
+                  "children": []
+                },
+                {
+                  "id": 231,
+                  "parentId": 112,
+                  "label": "相机抖动",
+                  "value": "  const conifg = useControls({\n    maxYaw: { value: 0.1, min: 0, max: 1, step: 0.01 },//最大数量的相机可以在任一方向偏航\n    maxPitch: { value: 0.1, min: 0, max: 1, step: 0.01 },//相机可以在任一方向俯仰的最大数量\n    maxRoll: { value: 0.1, min: 0, max: 1, step: 0.01 },//相机可以向任一方向滚动的最大数量\n    yawFrequency: { value: 0.1, min: 0, max: 10, step: 0.01 },//相机可以向任一方向滚动的最大数量\n    pitchFrequency: { value: 0.1, min: 0, max: 10, step: 0.01 },//相机可以向任一方向滚动的最大数量\n    rollFrequency: { value: 0.1, min: 0, max: 10, step: 0.01 },//相机可以向任一方向滚动的最大数量\n    intensity: 1, //震动的初始强度\n    decay: false, //强度应该随着时间的推移而衰减\n    decayRate: 0.65,//如果decay = true这是强度降低的速率\n\n  })\n    //使用相机抖动\n    < CameraShake { ...conifg } />\n",
+                  "children": []
+                },
+                {
+                  "id": 232,
+                  "parentId": 112,
+                  "label": "漂浮",
+                  "value": "<Float\n        speed={3} // 动画速度，默认为1\n        rotationIntensity={2} // XYZ旋转强度，默认为1\n        floatIntensity={1} // 向上/下浮动强度，就像带有浮动架的乘数一样，默认为1\n        floatingRange={[-1.1, 1.1]} // y轴值范围将浮在其中，默认为[-0.1,0.1]\n      >\n        {/* //相机居中 */}\n        <Box />\n      </Float>",
+                  "children": []
+                },
+                {
+                  "id": 233,
+                  "parentId": 112,
+                  "label": "U型背景板",
+                  "value": "<Backdrop\n        receiveShadow\n        scale={[20, 5, 5]}\n        position={[0, -0.5, -2]}\n        floor={0.25} // Stretches the floor segment, 0.25 by default\n        segments={20} // Mesh-resolution, 20 by default\n      >\n        <meshStandardMaterial roughness={1} color=\"#efefef\" />\n      </Backdrop>",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 102,
+              "parentId": 4,
+              "label": "数组",
+              "folder": true,
+              "children": [
+                {
+                  "id": 201,
+                  "parentId": 102,
+                  "label": "创建数组",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 136,
+                      "parentId": 201,
+                      "label": "生成n个0的浮点数组",
+                      "value": "const array = new Float32Array(length);",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 215,
+                      "parentId": 201,
+                      "label": "生成n个数组,已x y z半径做范围(方形)",
+                      "value": "import * as random from 'maath/random'\nconst box = random.inBox(new Float32Array(n), { sides: [x, y, z] });//生成n个数组,已x y z 半径做范围",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 216,
+                      "parentId": 201,
+                      "label": "生成n个数组,已radius半径(圆形)",
+                      "value": " import * as random from 'maath/random'\n  function ramdomPoints (l) {//maath库的用法,\n    return random.inSphere(new Float32Array(l), { radius: 5 })\n  }\n  ramdomPoints(10000)",
+                      "children": []
+                    },
+                    {
+                      "id": 202,
+                      "parentId": 201,
+                      "label": "创建可遍历的位置和旋转(供克隆没有位置旋转信息map使用)",
+                      "value": " //返回0:position: [23.736419640131157, -37.06880099744308, -10.221151192768438] \n  //     rotation:  [0.33056863301000233, 5.050181118551874, 6.1239166236066085]\n  //供克隆随机位置和旋转使用\n  const positions = [...Array(800)].map(() => ({\n    position: [40 - Math.random() * 80, 40 - Math.random() * 80, 40 - Math.random() * 80],\n    rotation: [Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2],\n  }))",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 200,
+                      "parentId": 201,
+                      "label": "物理叠高位置",
+                      "value": "//x返回0~2  y返回累积叠高 z返回-3~-1\nconst count = 100\nconst positions = Array.from({ length: count }, (_, i) => [THREE.MathUtils.randFloatSpread(2) + 1, 10 + i / 2, THREE.MathUtils.randFloatSpread(2) - 2])",
+                      "children": [
+                        {
+                          "id": 203,
+                          "parentId": 200,
+                          "label": "随机颜色",
+                          "value": "new THREE.Color(Math.random() * 0xffffff)",
+                          "children": []
+                        },
+                        {
+                          "id": 204,
+                          "parentId": 200,
+                          "label": "随机颜色",
+                          "value": "new THREE.Color(Math.random() * 0xffffff)",
+                          "children": []
+                        },
+                        {
+                          "id": 205,
+                          "parentId": 200,
+                          "label": "随机颜色",
+                          "value": "new THREE.Color(Math.random() * 0xffffff)",
+                          "children": []
+                        },
+                        {
+                          "id": 206,
+                          "parentId": 200,
+                          "label": "随机颜色",
+                          "value": "new THREE.Color(Math.random() * 0xffffff)",
+                          "children": []
+                        },
+                        {
+                          "id": 207,
+                          "parentId": 200,
+                          "label": "随机颜色",
+                          "value": "new THREE.Color(Math.random() * 0xffffff)",
+                          "children": []
+                        },
+                        {
+                          "id": 208,
+                          "parentId": 200,
+                          "label": "new THREE.Color(Math.random() * 0xffffff)",
+                          "value": "new THREE.Color(Math.random() * 0xffffff)",
+                          "children": []
+                        },
+                        {
+                          "id": 209,
+                          "parentId": 200,
+                          "label": "dd",
+                          "value": "const positions = [...Array(800)].map(() => ({\n    position: [40 - Math.random() * 80, 40 - Math.random() * 80, 40 - Math.random() * 80],\n    color: new THREE.Color(Math.random() * 0xffffff)\n  }))",
+                          "children": []
+                        },
+                        {
+                          "id": 211,
+                          "parentId": 200,
+                          "label": "顶点的",
+                          "value": "const positions = [...Array(800)].map(() => ({\n    position: [40 - Math.random() * 80, 40 - Math.random() * 80, 40 - Math.random() * 80],\n    color: new THREE.Color(Math.random() * 0xffffff)\n  }))",
+                          "children": []
+                        }
+                      ],
+                      "resolveSyntax": true
+                    }
+                  ]
+                },
+                {
+                  "id": 103,
+                  "parentId": 102,
+                  "label": "array数组转float32数组",
+                  "value": "//数组转浮点数组\n    const float32array = Float32Array.from(${1:array})",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 133,
+                  "parentId": 102,
+                  "label": "一个数组分成每3个一组",
+                  "value": "for (let i = 0; i < count; i++) {\n      const n = array.slice(i * 3, i * 3 + 3) //分成每3个一组\n      console.log('n:', n)\n    }",
+                  "children": []
+                },
+                {
+                  "id": 131,
+                  "parentId": 102,
+                  "label": "2维数组升3维(3维升4维)",
+                  "value": "import * as random from 'maath/random'\nconst my2DBuffer = new Float32Array(3 * 2);\nconst my3DBuffer = buffer.addAxis(my2DBuffer,2,()=>Math.random()) //2升3维\nconst my4DBuffer = buffer.addAxis(my3DBuffer,3,()=>Math.random()) //3升4维",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 132,
+                  "parentId": 102,
+                  "label": "数组<->vector3 互转",
+                  "value": " import * as random from 'maath/random'\n const myBuffer = new Float32Array(100 * 3);\n const myArray = maath.three.bufferToVectors(myBuffer) //数组转Vectors\n const buff = maath.three.vectorsToBuffer(myArray) //Vectors转数组",
+                  "children": []
+                },
+                {
+                  "id": 138,
+                  "parentId": 102,
+                  "label": "循环遍历",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 139,
+                      "parentId": 138,
+                      "label": "创建n次map循环",
+                      "value": "Array.from({ length: 100 }).map((item, key) => {\n    return console.log(key)\n  })",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 118,
+              "parentId": 4,
+              "label": "相机",
+              "folder": true,
+              "children": [
+                {
+                  "id": 140,
+                  "parentId": 118,
+                  "label": "初始化相机参数",
+                  "value": "camera={ { fov: 45, near: 0.1, far: 200, position: [ 2.5, 4, 6 ] } }",
+                  "children": []
+                },
+                {
+                  "id": 119,
+                  "parentId": 118,
+                  "label": "控制相机",
+                  "value": "//DEG2RAD=0.017453292519943295  1度,360*DEG2RAD=360\n  const { DEG2RAD } = THREE.MathUtils\n\n  function ceshi () {\n    console.log(cameraControlsRef.current)\n    //!平滑使用...[] \n    //参数1左右旋转度数 参数2上下旋转度数(最大180) 参数3旋转开关,\n    // cameraControlsRef.current?.rotate(DEG2RAD * 360, 0, true) //左右旋转360\n    // cameraControlsRef.current?.rotate(0, -DEG2RAD * 180, true) //旋转到顶视图\n    // cameraControlsRef.current?.truck(1, 0, true)//向右平移1米\n    // cameraControlsRef.current?.truck(0, -1, true)//向上平移1米\n    // cameraControlsRef.current?.truck(1, -1, true)//向右上平移1米\n    // cameraControlsRef.current?.dolly(1, true)//镜头拉近1米\n    // cameraControlsRef.current?.dolly(-1, true)//镜头拉远1米\n    // cameraControlsRef.current?.zoom(camera.zoom / 2, true)//镜头拉近\n    // cameraControlsRef.current?.zoom(-camera.zoom / 2, true)//镜头拉远\n    // cameraControlsRef.current?.moveTo((3, 5, 2), true)//?移动\n    // cameraControlsRef.current?.fitToBox(mesh.current, true)//!聚焦到目标物体,不管物体大小\n    // cameraControlsRef.current?.setPosition(...[5, 2, 1], true)//设置位置\n    // cameraControlsRef.current?.setTarget(...[10, 12, 1], true)//设置目标，相机会移动\n    // cameraControlsRef.current?.setLookAt(...[0, 10, 0], ...[0, 3, 1], true)//!聚焦参数1移动到参数2看向\n    cameraControlsRef.current?.lerpLookAt(//带聚焦的混合插值\n      ...[0, 0, 0],//移动到1\n      ...[0, 1, 0],//看向1\n      ...[1, 0, 0],//移动到2\n      ...[0, 0, 0],//看向2\n      Math.random() * 0.5 + 0.5,//0～1 混合系数\n      true\n    )\n   //!使用\n    <CameraControls\n        makeDefault\n        ref={cameraControlsRef}\n        enabled\nonStart={() => { console.log('start') }}//事件触发前,鼠标按住\n        onEnd={() => { console.log('End') }}//事件触发后，鼠标松开\n      // onChange={() => { console.log('onChange') }}//相机变化都\n      />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 136,
+                  "parentId": 118,
+                  "label": "透视相机",
+                  "value": "<PerspectiveCamera makeDefault   />",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 137,
+                  "parentId": 118,
+                  "label": "透视相机渲染变纹理",
+                  "value": "<PerspectiveCamera position={[0, 0, 10]}>\n  {(texture) => (\n    <mesh geometry={plane}>\n      <meshBasicMaterial map={texture} />\n    </mesh>\n  )}\n</PerspectiveCamera>",
+                  "children": []
+                },
+                {
+                  "id": 139,
+                  "parentId": 118,
+                  "label": "正交相机",
+                  "value": "<OrthographicCamera makeDefault >",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 138,
+                  "parentId": 118,
+                  "label": "正交相机渲染变纹理",
+                  "value": "<OrthographicCamera position={[0, 0, 10]}>\n  {(texture) => (\n    <mesh geometry={plane}>\n      <meshBasicMaterial map={texture} />\n    </mesh>\n  )}\n</OrthographicCamera>",
+                  "children": []
+                },
+                {
+                  "id": 181,
+                  "parentId": 118,
+                  "label": "点击聚焦物体",
+                  "value": "//OrbitControls必须设置makeDefault\n//示例https://codesandbox.io/s/rz2g0?file=/src/App.js:1608-1619\nimport { useBounds, Bounds } from '@react-three/drei'\n    <Bounds fit clip observe margin={1.2} visible>\n      <SelectToZoom>\n         <mesh>\n        </mesh>\n      </SelectToZoom>\n    </Bounds>\n//选择聚焦函数父组件\nfunction SelectToZoom ({ children }) {\n  const api = useBounds()\n  return (\n    <group onClick={(e) => (e.stopPropagation(), e.delta <= 2 && api.refresh(e.object).fit())} onPointerMissed={(e) => e.button === 0 && api.refresh().fit()}>\n      {children}\n    </group>\n  )\n}",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 141,
+              "parentId": 4,
+              "label": "光线",
+              "folder": true,
+              "children": [
+                {
+                  "id": 143,
+                  "parentId": 141,
+                  "label": "鼠标事件",
+                  "value": "const eventHandler = (e) =>\n{\n    console.log(e)\nconsole.log('distance', event.distance) // 相机与碰撞点之间的距离\nconsole.log('point', event.point) // 碰撞点的坐标（在3D空间中）\nconsole.log('uv', event.uv) // 几何体上的UV坐标（在2D空间中）\nconsole.log('object', event.object) // 触发事件的对象\nconsole.log('eventObject', event.eventObject) // 监听事件的对象（当存在多层嵌套对象时有用）\n\nconsole.log('x', event.x) // 指针在屏幕上的二维坐标\nconsole.log('y', event.y) // 指针在屏幕上的二维坐标\n\nconsole.log('shiftKey', event.shiftKey) // 是否按下SHIFT键\nconsole.log('ctrlKey', event.ctrlKey) // 是否按下CTRL键\nconsole.log('metaKey', event.metaKey) // 是否按下COMMAND键\n    cube.current.material.color.set(`hsl(${Math.random() * 360}, 100%, 75%)`)\n}\n\n<mesh onClick={eventHandler}>\n\n</mesh>",
+                  "children": [
+                    {
+                      "id": 144,
+                      "parentId": 143,
+                      "label": "state",
+                      "value": "const [state, setstate] = useState();",
+                      "children": []
+                    },
+                    {
+                      "id": 145,
+                      "parentId": 143,
+                      "label": "state",
+                      "value": "const [state, setstate] = useState();",
+                      "children": []
+                    },
+                    {
+                      "id": 146,
+                      "parentId": 143,
+                      "label": "state",
+                      "value": "const [list,setState]=useState()",
+                      "children": []
+                    }
+                  ],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 144,
+                  "parentId": 141,
+                  "label": "物体叠加时不穿透",
+                  "value": "onClick={ (event) => event.stopPropagation() //停止传播",
+                  "children": []
+                },
+                {
+                  "id": 145,
+                  "parentId": 141,
+                  "label": "修改鼠标样式",
+                  "value": "onPointerEnter={ () => { document.body.style.cursor = 'pointer' } }\nonPointerLeave={ () => { document.body.style.cursor = 'default' } }",
+                  "children": []
+                },
+                {
+                  "id": 146,
+                  "parentId": 141,
+                  "label": "性能优化_光线使用网格边界",
+                  "value": "<mesh\n    ref={ cube }\n    raycast={ meshBounds } //使用网格边界\n    position-x={ 2 }\n    scale={ 1.5 }\n    onClick={ eventHandler }\n    onPointerEnter={ () => { document.body.style.cursor = 'pointer' } }\n    onPointerLeave={ () => { document.body.style.cursor = 'default' } }\n>\n    {/* ... */}\n</mesh>",
+                  "children": []
+                },
+                {
+                  "id": 147,
+                  "parentId": 141,
+                  "label": "事件射线汇总",
+                  "value": "//放在canvas下，所有事件和射线事件的汇总\n<CycleRaycast\n  preventDefault={true} // 致电eventPreventDefault（） (default: true)\n  scroll={true} // 车轮事件 (default: true)\n  keyCode={9} // 键盘事件 (default: 9 [Tab])\n  onChanged={(objects, cycle) => console.log(objects, cycle)} // 可选的Onchanged事件\n/>",
+                  "children": [
+                    {
+                      "id": 148,
+                      "parentId": 147,
+                      "label": "state",
+                      "value": "const [list,setState]=useState()",
+                      "children": []
+                    },
+                    {
+                      "id": 149,
+                      "parentId": 147,
+                      "label": "state",
+                      "value": "const [list,setState]=useState()",
+                      "children": []
+                    },
+                    {
+                      "id": 152,
+                      "parentId": 147,
+                      "label": "effect",
+                      "value": "useEffect(() => {\n\n},[])",
+                      "children": [
+                        {
+                          "id": 153,
+                          "parentId": 152,
+                          "label": "useMemo",
+                          "value": "  let count = 300\n\n  const cubesTranfrom = useMemo(() => {\n    const positions = []\n    const rotations = []\n    const scales = []\n\n    for (let i = 0; i < count; i++) {\n      positions.push([(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 100, 0])\n      rotations.push([0, 0, 0])\n      scales.push([1, 1, 1])\n\n    }\n    return { positions, rotations, scales }\n  }, [])",
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": 153,
+                      "parentId": 147,
+                      "label": "useEffect(() => {  },[])",
+                      "value": "useEffect(() => {\n\n}, [])",
+                      "children": []
+                    },
+                    {
+                      "id": 154,
+                      "parentId": 147,
+                      "label": "aaa",
+                      "value": "useEffect(() => {\n\n}, [])",
+                      "children": []
+                    },
+                    {
+                      "id": 150,
+                      "parentId": 147,
+                      "label": "state",
+                      "value": "const [list,setState]=useState()",
+                      "children": [],
+                      "resolveSyntax": true
+                    }
+                  ]
+                },
+                {
+                  "id": 159,
+                  "parentId": 141,
+                  "label": "select组件,单多选(可知道谁被选中)",
+                  "value": "import React, { useEffect, useRef, useState } from 'react'\nimport { useFrame } from '@react-three/fiber'\nimport { Box, Select, useSelect } from '@react-three/drei'\nimport * as THREE from 'three'\n\nexport default function Test2 () {\n  //选中列表,选择的selected2出现列表\n  const [selected2, setSelected2] = useState([])\n  console.log('selected2:', selected2)\n\n\n  //在子组件内使用，selected获取选中列表\n  const selected = useSelect()\n\n  return (\n    <>\n      <Select //选中范围，在<Select>内才会在列表中\n        box//允许框选择，默认值：false\n        multiple //允许多选，shift左键可多选 默认值：false\n        border='2px solid #fb001f' //shift框选的样式：默认值：'1px solid #55aaff'\n        backgroundColor='rgba(75, 160, 255, 0.1)' //Curom CSS 颜色，默认：'rgba(75, 160, 255, 0.1)\n        onChange={setSelected2}//选择更改的回调\n      // filter={filter => filter}//用于过滤选择的可选过滤器\n      // onChangePointerUp={console.log}//一旦指针向上，选择更改的回调\n      >\n        <mesh position-x={2} >\n          <boxGeometry />\n          <meshNormalMaterial resolution={128} samples={16} />\n        </mesh>\n        <Box name='3' position-y={2} />\n        <Box name='2' />\n      </Select >\n    </>\n  )\n}",
+                  "children": []
+                },
+                {
+                  "id": 222,
+                  "parentId": 141,
+                  "label": "加速光线投射",
+                  "value": "https://github.com/pmndrs/drei#bvh",
+                  "children": []
+                },
+                {
+                  "id": 148,
+                  "parentId": 141,
+                  "label": "事件集合",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 149,
+                      "parentId": 148,
+                      "label": "点击",
+                      "value": "onClick={(e) => console.log('click')}",
+                      "children": []
+                    },
+                    {
+                      "id": 150,
+                      "parentId": 148,
+                      "label": "右击出现上下文菜单触发",
+                      "value": "onContextMenu={(e) => console.log('context menu')}//右击出现上下文菜单触发",
+                      "children": []
+                    },
+                    {
+                      "id": 151,
+                      "parentId": 148,
+                      "label": "双击",
+                      "value": "onDoubleClick={(e) => console.log('double click')}//双击",
+                      "children": []
+                    },
+                    {
+                      "id": 152,
+                      "parentId": 148,
+                      "label": "滚轮",
+                      "value": " onWheel={(e) => console.log('wheel spins')}//滚轮",
+                      "children": []
+                    },
+                    {
+                      "id": 153,
+                      "parentId": 148,
+                      "label": "当释放点击（向左或向右）或触摸时触发",
+                      "value": "onPointerUp={(e) => console.log('up')} //当释放点击（向左或向右）或触摸时触发",
+                      "children": []
+                    },
+                    {
+                      "id": 154,
+                      "parentId": 148,
+                      "label": "刚刚点击或放下手指时被触发",
+                      "value": "onPointerDown={(e) => console.log('down')}//刚刚点击或放下手指时被触发",
+                      "children": []
+                    },
+                    {
+                      "id": 155,
+                      "parentId": 148,
+                      "label": "当光标或手指刚好在对象上方时触发该事件",
+                      "value": "onPointerOver={(e) => console.log('over')}//当光标或手指刚好在对象上方时触发该事件",
+                      "children": []
+                    },
+                    {
+                      "id": 156,
+                      "parentId": 148,
+                      "label": "当光标或手指刚离开对象时触发该事件",
+                      "value": "onPointerOut={(e) => console.log('out')}//当光标或手指刚离开对象时触发该事件",
+                      "children": []
+                    },
+                    {
+                      "id": 157,
+                      "parentId": 148,
+                      "label": "如果光标从上一帧开始移动，并且在对象上方，则每一帧都会触发",
+                      "value": "onPointerMove={(e) => console.log('move')}//如果光标从上一帧开始移动，并且在对象上方，则每一帧都会触发",
+                      "children": []
+                    },
+                    {
+                      "id": 158,
+                      "parentId": 148,
+                      "label": "可添加到canvas，用户在对象外部单击",
+                      "value": "onPointerMissed={() => console.log('missed')}//可添加到canvas，用户在对象外部单击",
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": 170,
+              "parentId": 4,
+              "label": "实例化",
+              "folder": true,
+              "children": [
+                {
+                  "id": 194,
+                  "parentId": 170,
+                  "label": "简单的实例化(内置几何或导入的模型+自定义shader)",
+                  "value": "import React, { Suspense, useLayoutEffect, useEffect, useMemo, useRef, useState } from 'react'\nimport { useFrame, extend } from '@react-three/fiber'\nimport { useGLTF, shaderMaterial } from '@react-three/drei'\nimport * as THREE from 'three'\n\n\n\n//shaderMaterial\nconst MyMaterial = shaderMaterial(\n  {\n    color: new THREE.Color(0.8, 0.1, 1.0),\n    // uBig: 0.2,\n    // uBigx: 4.0,\n    u_time: 0,\n    // image: texture\n  },\n  `\n  varying vec2 vUv;\n  uniform float u_time;   \n \nvoid main() {\n        //第二种，拆分模型视图矩阵,操作mvposition:先变换矩阵,叠加模型矩阵 = 整体变换后:适用vec3操作\n        vec4 mvPosition = modelMatrix * instanceMatrix * vec4( position, 1.0 ); \n        //!控制变化\n        mvPosition.y += sin(u_time);\n  \n        //应用视图矩阵\n        mvPosition = viewMatrix * mvPosition;\n        gl_Position = projectionMatrix * mvPosition;\n  }\n  `,\n  `\n  uniform float u_time; \n  varying vec2 vUv;\n \n\n#define PI 3.1415926\n\n//rgb函数\nvec4 rgb(float r, float g, float b){\n  return vec4(r/255.0, g/255.0, b/255.0, 1.0);\n\n}\n\n  void main() {\n    // vec2 uv = 2.0 * vUv -1.0; //uv坐标变成0-2,再减1，就变-1~1,中心就是0,0\n\n    \n    vec4 color = vec4(0.1294, 0.2157, 0.4078, 1.0);\n  \n    gl_FragColor = color;  \n  }\n  \n\n\n  `\n)\nextend({ MyMaterial })\n\nexport default function Intancemesh () {\n\n  const instmesh = useRef()\n  const myMaterialref = useRef()\n\n  const { nodes, materials } = useGLTF('/Flower.glb')\n\n  const count = 100 //实例化数量\n\n  useEffect(() => {\n    for (let i = 0; i < count; i++) {\n\n      const matrix = new THREE.Matrix4()\n      matrix.compose(\n        new THREE.Vector3(Math.random(), Math.random(), Math.random()),//obj.poisition获取位置\n        new THREE.Quaternion(), //obj.quaternion获取四元数方法\n        new THREE.Vector3(1, 1, 1)//obj.scale 获取缩放\n      )\n      //尝试直接获取模型的4矩阵 matrix局部  matrixWorld 世界若这个Object3D没有父级，则它将和local transform [.matrix](https://threejs.org/docs/index.html#api/zh/core/Object3D.matrix \"Object3D.matrix\")（局部变换矩阵）相同。\n      instmesh.current.setMatrixAt(i, matrix)\n    }\n  }, [])\n\n  useFrame((state, delta) => {\n    const time = state.clock.elapsedTime\n    myMaterialref.current.uniforms.u_time.value = time\n  })\n  return (\n    <>\n      <instancedMesh ref={instmesh}\n        args={[null, null, count]}\n        geometry={nodes.Blossom.geometry} //导入的模型\n      // material={materials.Blossom}\n      >\n        {/* 内置几何模型 */}\n        {/* <boxGeometry args={[1,1,1]}/>\n        <meshNormalMaterial/> */}\n        <myMaterial ref={myMaterialref} />\n      </instancedMesh>\n    </>\n\n  )\n}\n\n\n",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 195,
+                  "parentId": 170,
+                  "label": "已某物体顶点位置创建实例化",
+                  "value": "import { useState, useRef, useEffect } from 'react'\nimport './App.css'\nimport { Canvas, extend, useLoader, useFrame } from '@react-three/fiber'\nimport { OrbitControls, shaderMaterial } from '@react-three/drei'\nimport * as THREE from 'three'\n\n// instanceMatrix:\n// 实例化的个数\n//instmesh.current.setMatrixAt(i, dummy.matrix) 循环传入变换矩阵matrix\n//instmesh-geometry-attributes 物体的数据。 InstancedBufferAttribute，实例化整体的数据\n//\n//glsl部分\n//vec4 mvPosition = vec4( position, 1.0 );\n//  mat4 im = instanceMatrix;\n// 对im操作能变换每个实例\n\n// mvPosition = im * mvPosition;\n//glsl对每个实例位移变化\n//instanceMatrix[3].x对每个实例x位移  instanceMatrix[3].y对每个实例y位移  instanceMatrix[3].z 对每个实例z位移\n\n\n\nlet texture = new THREE.TextureLoader().load('/h2.png', (texture) => { texture['name'] = 'one' })\n\n//shaderMaterial\nconst ColorkaleidoscopeMaterial = shaderMaterial(\n  {\n    // color: new THREE.Color(0.8, 0.1, 1.0),\n    // uBig: 0.2,\n    // uBigx: 4.0,\n    u_time: 0,\n    heightMap: texture\n  },\n  `\n \n  uniform float u_time;   \n  uniform sampler2D heightMap;\n  attribute vec2 instUV;\n  attribute vec3 translate;\n  varying float vHeight;\n\n  mat4 rotation3d(vec3 axis, float angle) {\n    axis = normalize(axis);\n    float s = sin(angle);\n    float c = cos(angle);\n    float oc = 1.0 - c;\n  \n    return mat4(\n      oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,\n      oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,\n      oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,\n      0.0,                                0.0,                                0.0,                                1.0\n    );\n  }\n\n  void main() {\n      \n      // //第一种操作实例的方法: 通过变化实例矩阵改变顶点,适用矩阵操作\n      // vec4 mvPosition = vec4( position, 1.0 );\n\n      // mat4 im = instanceMatrix;\n      // //提取高度贴图的颜色值\n      // float h = texture2D(heightMap, instUV).r;\n      // vHeight = h;\n\n      // //im[3]位置变换矩阵。高度值*5\n      // im[3].y += h * 5.;\n      // //创建旋转\n      // mat4 rotationMatrixY = rotation3d(vec3(0.0, 1.0, 0.0), 3.14159*sin(u_time)+3.14159);\n      // //矩阵与实例矩阵相乘\n      // im = im * rotationMatrixY;\n      // //mvposition应用实例矩阵\n      // mvPosition = im * mvPosition;\n      // //应用模型视图矩阵\n      // mvPosition = modelViewMatrix * mvPosition;\n      // gl_Position = projectionMatrix * mvPosition;//固定\n    \n      \n      //第二种，拆分模型视图矩阵,操作mvposition:先变换矩阵,叠加模型矩阵 = 整体变换后:适用vec3操作\n      vec4 mvPosition = modelMatrix * instanceMatrix * vec4( position, 1.0 ); \n      //提取高度贴图的颜色值\n      float h = texture2D(heightMap, instUV).r;\n      mvPosition.y += h *5.0;\n\n      //应用视图矩阵\n      mvPosition = viewMatrix * mvPosition;\n      gl_Position = projectionMatrix * mvPosition;\n\n\n      vHeight = h;\n       //法线变化实例的应用\n       //vNormal = normalMatrix * mat3(instanceMatrix) * normal;\n  }\n  `,\n  `\n  uniform float u_time; \n  varying float vHeight;\n \n\n#define PI 3.1415926\n\n//rgb函数\nvec4 rgb(float r, float g, float b){\n  return vec4(r/255.0, g/255.0, b/255.0, 1.0);\n}\n\n  void main() {\n    // vec2 uv = 2.0 * vUv -1.0; //uv坐标变成0-2,再减1，就变-1~1,中心就是0,0\n\n    \n    vec4 color = vec4(vHeight,vHeight,vHeight,1.0);\n  \n    gl_FragColor = color;  \n  }\n  `\n)\nextend({ ColorkaleidoscopeMaterial })\n\nfunction Fire () {\n  //创建平面\n  let planeG = new THREE.PlaneGeometry(20, 20, 100, 100)\n  planeG.rotateX(Math.PI * -0.5)\n  //提取平面几何顶点数\n  const MAX_COUNT = planeG.attributes.position.count\n\n  //创建立方体\n  let g = new THREE.BoxGeometry(0.1, 0.1, 0.1)\n  //把平面的uv赋值给box属性，平面的uv数=顶点数*2 = 10201*2\n  g.setAttribute(\n    \"instUV\",\n    new THREE.InstancedBufferAttribute(planeG.attributes.uv.array, 2)//实例化整体的uv\n  )\n\n  const instmesh = useRef()\n  useEffect(() => {\n    //空对象\n    let dummy = new THREE.Object3D()\n    //空三维\n    let v3 = new THREE.Vector3()\n    //循环顶点数\n    for (let i = 0; i < MAX_COUNT; i++) {\n      //!顶点v3来源于attribute，i=索引 \n      dummy.position.fromBufferAttribute(planeG.attributes.position, i)\n\n      dummy.rotation.setFromVector3(v3.random().multiplyScalar(Math.PI))\n      dummy.updateMatrix()\n      //把变换给实例mesh=instanceMatrix\n      instmesh.current.setMatrixAt(i, dummy.matrix)\n    }\n    // instmesh.current.geometry.attributes.position.array = planeG.attributes.position.array\n    // instmesh.current.geometry.setAttribute('translate', new THREE.InstancedBufferAttribute(planeG.attributes.position.array, 3))\n    // instmesh.current.instanceMatrix.needsUpdate = true\n  }, [])\n\n  useFrame((state, d) => {\n    const time = state.clock.elapsedTime\n\n    instmesh.current.material.uniforms.u_time.value = time\n\n  })\n\n  return (<>\n\n    <instancedMesh geometry={g} ref={instmesh}\n      args={[null, null, MAX_COUNT]}\n    >\n      <colorkaleidoscopeMaterial />\n    </instancedMesh>\n  </>)\n\n}\n\n\n\nfunction App () {\n  return (\n    <div className=\"h-[100vh] bg-black\">\n      <Canvas className=\"h-full\">\n        <OrbitControls />\n        <primitive object={new THREE.AxesHelper(10)} />\n        {/* <primitive object={new THREE.GridHelper(100, 100)} /> */}\n        <ambientLight intensity={0.8} />\n        <Fire />\n      </Canvas>\n    </div>\n  )\n}\n\nexport default App\n",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 201,
+                  "parentId": 170,
+                  "label": "草的实例化示例",
+                  "value": "https://codesandbox.io/s/grass-shader-5xho4?file=/src/Grass.js",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 116,
+              "parentId": 4,
+              "label": "数学",
+              "folder": true,
+              "children": [
+                {
+                  "id": 117,
+                  "parentId": 116,
+                  "label": "1度",
+                  "value": "//DEG2RAD=0.017453292519943295  1度,360*DEG2RAD=360\n  const { DEG2RAD } = THREE.MathUtils",
+                  "children": [],
+                  "resolveSyntax": true
+                },
+                {
+                  "id": 200,
+                  "parentId": 116,
+                  "label": "随机",
+                  "folder": true,
+                  "children": [
+                    {
+                      "id": 198,
+                      "parentId": 200,
+                      "label": "0-1的浮点",
+                      "value": "//随机0-1的浮点\n  Math.random()",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 199,
+                      "parentId": 200,
+                      "label": "-1到1的浮点",
+                      "value": "//随机-1到1的浮点\n    (Math.random() * 2) - 1",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 197,
+                      "parentId": 200,
+                      "label": "0-n的浮点",
+                      "value": "//随机0-n的浮点\n  Math.random() * n",
+                      "children": [],
+                      "resolveSyntax": true
+                    },
+                    {
+                      "id": 196,
+                      "parentId": 200,
+                      "label": "-n到n的浮点",
+                      "value": "//THREE.MathUtils.randFloatSpread(n)返回在区间 [- n / 2, n / 2] 内随机一个浮点数。\n//随机n到-n\n  const n = 10\n  console.log(THREE.MathUtils.randFloatSpread(n)) //返回-5~5",
+                      "children": [],
+                      "resolveSyntax": true
+                    }
+                  ]
+                },
+                {
+                  "id": 212,
+                  "parentId": 116,
+                  "label": "随机颜色",
+                  "value": "new THREE.Color(Math.random() * 0xffffff)",
+                  "children": []
+                },
+                {
+                  "id": 133,
+                  "parentId": 116,
+                  "label": "sincos",
+                  "folder": true,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 177,
+              "parentId": 4,
+              "label": "函数",
+              "folder": true,
+              "children": [
+                {
+                  "id": 178,
+                  "parentId": 177,
+                  "label": "延迟执行",
+                  "value": "  useEffect(() => {\n    let count = 0\n    const timeout = setTimeout(() => {\n      ref.current.material.uniforms.diffuse.value = new THREE.Color(Math.random() * 0xffffff)\n    }, 3000)\n    return () => clearTimeout(timeout)\n  })",
+                  "children": []
+                },
+                {
+                  "id": 179,
+                  "parentId": 177,
+                  "label": "间隔执行",
+                  "value": "  useEffect(() => {\n    let count = 0\n    const interval = setInterval(() => {\n      ref.current.material.uniforms.diffuse.value = new THREE.Color(Math.random() * 0xffffff)\n    }, 3000)\n    return () => clearInterval(interval)\n  })",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 174,
+              "parentId": 4,
+              "label": "物理",
+              "folder": true,
+              "children": []
+            },
+            {
+              "id": 172,
+              "parentId": 4,
+              "label": "体积",
+              "folder": true,
+              "children": []
+            },
+            {
+              "id": 168,
+              "parentId": 4,
+              "label": "后期",
+              "folder": true,
+              "children": [
+                {
+                  "id": 137,
+                  "parentId": 168,
+                  "label": "后期(辉光+环境光遮蔽ao)",
+                  "value": "import React, { Suspense, useLayoutEffect, useEffect, useMemo, useRef, useState } from 'react'\nimport { Canvas, useThree, extend, useFrame } from '@react-three/fiber'\nimport { OrbitControls, Box, shaderMaterial } from '@react-three/drei'\nimport * as THREE from 'three'\nimport { SSR, DepthOfField, Bloom, Noise, Glitch, Vignette, EffectComposer, SSAO, Selection } from '@react-three/postprocessing'\nimport { BlendFunction, Resizer, KernelSize } from 'postprocessing'\nimport { useControls } from 'leva'\n\nexport default function Postprocess () {\n\n  const { bloomintensity, luminanceThreshold, luminanceSmoothing, blurPass } = useControls('辉光', {\n    bloomintensity: { value: 1, min: 0, max: 10, step: 0.01, label: '强度' },\n    luminanceThreshold: { value: 0.9, min: 0, max: 2, step: 0.01, label: '发光阀值' },\n    luminanceSmoothing: { value: 0.025, min: 0, max: 5, step: 0.001, label: '亮度阀值平滑度' },\n    blurPass: { value: 12, min: 0, max: 50, step: 0.001, label: '模糊深度' },\n  }, { collapsed: true },//初始化折叠\n  )\n  const ssao = useControls('环境光遮蔽AO', {\n    samples: { value: 9, min: 0, max: 100, step: 1, label: '采样数' },\n    rings: { value: 7, min: 0, max: 20, step: 0.01, label: '遮挡环数' },\n    distanceThreshold: { value: 0.97, min: 0, max: 1, step: 0.001, label: '距离阈值' },\n    distanceFalloff: { value: 0.03, min: 0, max: 1, step: 0.0001, label: '距离衰减' },\n    rangeThreshold: { value: 0.0005, min: 0, max: 1, step: 0.0001, label: '范围阀值' },\n    rangeFalloff: { value: 0.001, min: 0, max: 1, step: 0.001, label: '范围衰减' },\n    minRadiusScale: { value: 0.33, min: 0, max: 1, step: 0.001, label: '最小半径刻度' },\n    luminanceInfluence: { value: 0.7, min: 0, max: 10, step: 0.01, label: '亮度影响' },\n    radius: { value: 0.1825, min: 0, max: 1, step: 0.0001, label: '半径' },\n    intensity: { value: 1, min: 0, max: 10, step: 0.01, label: '环境光遮蔽强度' },\n    scale: { value: 0.5, min: 0, max: 10, step: 0.001, label: '距离降低' },\n    bias: { value: 0.025, min: 0, max: 1, step: 0.001, label: '遮挡偏差' },\n    color: '#000000',\n  }, { collapsed: true },//初始化折叠\n  )\n  // const ssr = useControls('屏幕反射', {\n  //   temporalResolve: true,\n  //   STRETCH_MISSED_RAYS: true,\n  //   USE_MRT: true,\n  //   USE_NORMALMAP: true,\n  //   USE_ROUGHNESSMAP: true,\n  //   ENABLE_JITTERING: true,\n  //   ENABLE_BLUR: true,\n  //   temporalResolveMix: { value: 0.9, min: 0, max: 1 },\n  //   temporalResolveCorrectionMix: { value: 0.25, min: 0, max: 1 },\n  //   maxSamples: { value: 0, min: 0, max: 1 },\n  //   resolutionScale: { value: 1, min: 0, max: 1 },\n  //   blurMix: { value: 0.5, min: 0, max: 1 },\n  //   blurKernelSize: { value: 8, min: 0, max: 8 },\n  //   blurSharpness: { value: 0.5, min: 0, max: 1 },\n  //   rayStep: { value: 0.3, min: 0, max: 1 },\n  //   intensity: { value: 1, min: 0, max: 5 },\n  //   maxRoughness: { value: 0.1, min: 0, max: 1 },\n  //   jitter: { value: 0.7, min: 0, max: 5 },\n  //   jitterSpread: { value: 0.45, min: 0, max: 1 },\n  //   jitterRough: { value: 0.1, min: 0, max: 1 },\n  //   roughnessFadeOut: { value: 1, min: 0, max: 1 },\n  //   rayFadeOut: { value: 0, min: 0, max: 1 },\n  //   MAX_STEPS: { value: 20, min: 0, max: 20 },\n  //   NUM_BINARY_SEARCH_STEPS: { value: 5, min: 0, max: 10 },\n  //   maxDepthDifference: { value: 3, min: 0, max: 10 },\n  //   maxDepth: { value: 1, min: 0, max: 1 },\n  //   thickness: { value: 10, min: 0, max: 10 },\n  //   ior: { value: 1.45, min: 0, max: 2 }\n  // }, { collapsed: true },)\n  return (\n    <>\n      <EffectComposer //效果器 必须包装您的所有效果。它将为您管理它们\n        // enabled={boolean}\n        // children={JSX.Element | JSX.Element[]}\n        // depthBuffer={true}\n        // disableNormalPass={boolean}\n        // stencilBuffer={boolean}\n        // autoClear={boolean}\n        multisampling={8}   //默认8, 多重采样用于防止混叠效应, 值越高边缘越清晰但性能变差， 0多重采样时性能应该更好\n      // frameBufferType={TextureDataType}\n      // /** 有关支持DepthDownsmplingPass的效果 */\n      // resolutionScale={number}\n      // renderPriority={number}\n      // camera={THREE.Camera}\n      // scene={THREE.Scene}\n      >\n\n\n\n        <Bloom  //辉光 ,颜色通道超出1阈值时才会发光, 解决方法: mateerial.toneMapped = {false} mateerial.color={ [ 1.5, 1, 4 ] }内部光 颜色必须大于1 mateerial.emissive={color}外部光  mateerial.emissiveIntensity={number}发光度\n          mipmapBlur\n          intensity={bloomintensity} //亮度默认1\n          luminanceThreshold={luminanceThreshold} //默认0.9 定义材料开始发光的阈值\n          luminanceSmoothing={luminanceSmoothing}//亮度阈值的平滑度。范围是 [0, 1]\n          blurPass={blurPass} //模糊深度\n          width={Resizer.AUTO_SIZE}\n          height={Resizer.AUTO_SIZE}\n          kernelSize={KernelSize.LARGE} // 模糊内核大小\n        />\n\n\n        {/* 此效果支持深度感知的上采样，应以较低的分辨率渲染。分辨率应与缩减采样的法线和深度的分辨率相匹配。如果您打算以全分辨率渲染 SSAO，请不要提供缩减采样的 normalDepthBuffer，并确保禁用 depthAwareUpsampling。 */}\n        <SSAO\n          {...ssao}\n          blendFunction={BlendFunction.MULTIPLY} // 混合模式\n          depthAwareUpsampling={false}\n          width={Resizer.AUTO_SIZE}\n          height={Resizer.AUTO_SIZE}\n        // samples={30} // 每个像素的样品量（不应是环数的倍数）\n        // rings={4} // 遮挡抽样模式中的环数\n        // distanceThreshold={1.0} // 闭塞效果开始消失的全球距离阈值。最小：0，最大：1\n        // distanceFalloff={0.0} // 距离降低. min: 0, max: 1\n        // rangeThreshold={0.5} // 闭塞开始消失的局部遮挡范围阈值. min: 0, max: 1\n        // rangeFalloff={0.1} // 闭塞范围降低. min: 0, max: 1\n        // luminanceInfluence={0.9} // 场景的亮度对环境阻塞有多大影响\n        // radius={20} // 遮挡采样半径\n        // scale={0.5} // 环境阻塞的比例\n        // bias={0.5} // 闭塞偏见\n        />\n\n\n\n        {/* <SSR {...ssr} /> */}\n\n\n\n\n\n      </EffectComposer>\n    </>\n  )\n}",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 171,
+              "parentId": 4,
+              "label": "GPGPU",
+              "folder": true,
+              "children": []
+            },
+            {
+              "id": 223,
+              "parentId": 4,
+              "label": "性能",
+              "folder": true,
+              "children": [
+                {
+                  "id": 224,
+                  "parentId": 223,
+                  "label": "性能监视器(fps低于阀值会触发事件)",
+                  "value": "https://github.com/pmndrs/drei#performancemonitor",
+                  "children": []
+                }
+              ]
+            },
+            {
+              "id": 125,
+              "parentId": 4,
+              "label": "图片",
+              "value": " useEffect(() => {\n    ref.current.material.zoom = 1 // 图片内缩放\n    ref.current.material.grayscale = 0 // 灰度 between 0 and 1\n    ref.current.material.color.set(0x5fff30) // 混合color\n  }, [])\n //图片\n<Image ref={ref} url=\"/3333.jpg\"\n        transparent opacity={1.0}\n        position={[2, 1, 2]}\n        scale={4}\n      />",
+              "children": []
+            },
+            {
+              "id": 126,
+              "parentId": 4,
+              "label": "text2D字体",
+              "value": " <Text ref={ref2}\n        font={'/NotoSansSC-Light.otf'} //字体库https://fonts.google.com/?subset=chinese-simplified&noto.script=Hans\n        color=\"red\"\n        anchorX=\"center\" anchorY=\"middle\" //中心点\n        position-y={6}\n      >\n        hello world!w雾\n      </Text>",
+              "children": []
+            },
+            {
+              "id": 127,
+              "parentId": 4,
+              "label": "音频",
+              "value": "<PositionalAudio //将它们与相机靠近时播放的声音联系起来。\n        autoplay loop url=\"/358232_j_s_song.mp3\"\n      // distance={1} //音量，越小越轻\n      />",
+              "children": []
+            },
+            {
+              "id": 128,
+              "parentId": 4,
+              "label": "广告牌(始终面向相机)",
+              "value": "<Billboard //添加一个<group />始终面向相机的对象。\n        follow={true}\n        lockX={false}\n        lockY={false}\n        lockZ={false} // 将旋转锁定在Z轴上（默认= false）\n      >\n        <mesh />\n      </Billboard>",
+              "children": []
+            },
+            {
+              "id": 129,
+              "parentId": 4,
+              "label": "占据屏幕位置(贴在屏幕上)",
+              "value": " <ScreenSpace //始终贴在屏幕上,占据屏幕比例\n        depth={9} // 与相机距离\n\n      >\n        <Box\n          position-x={2} //屏幕位置\n          args={[1, 2.5, 0]}  >I'm in screen space</Box>\n      </ScreenSpace>",
+              "children": []
+            },
+            {
+              "id": 131,
+              "parentId": 4,
+              "label": "运动轨迹",
+              "value": "  useFrame(({ clock }) => {\n    const t = clock.getElapsedTime()\n\n    group.current.rotation.z = t\n\n    sphere.current.position.x = Math.sin(t * 2) * 6\n    sphere.current.position.z = Math.cos(t * 2) * 6\n  })\n\n{/* 轨迹 */}\n<group ref={group}>\n<Trail\n  width={2} // 线的宽度\n  color={'hotpink'} // Color of the line\n  length={8} // 轨迹线的长度\n  // decay={1} // 线路逐渐消失了多快\n  // local={false} // 是使用目标世界还是地方位置\n  stride={0.1} // 上一个和当前点之间的最小距离\n  interval={1} // 帧数等待下次计算之前\n  // target={undefined} // 可选目标。这个对象将产生步道.\n  attenuation={(t) => t * t} // 一个函数来定义沿其每个点的宽度.\n>\n  <mesh ref={sphere}>\n    <boxGeometry />\n    <meshBasicMaterial color={'#fdff50'}\n    />\n  </mesh>\n</Trail>\n</group>",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 186,
+              "parentId": 4,
+              "label": "运动轨迹(自定义形状)",
+              "value": "import React, { useState, useRef } from 'react'\nimport { useCursor, useIntersect, useBoxProjectedEnv, Sphere, Trail, useTrail, CubeCamera, BakeShadows } from '@react-three/drei'\nimport { useFrame } from '@react-three/fiber'\nimport { useControls } from 'leva'\nimport * as THREE from 'three'\nexport default function Test2 (props) {\n  const group = useRef()\n  // const sphere = useRef()\n  const [sphere, setSphere] = React.useState()\n  const instancesRef = React.useRef()\n\n  //设置轨迹\n  const trailPositions = useTrail(sphere, {\n    length: 8,//线的长度\n    decay: 5, //线路逐渐消失了多快\n    interval: 4, //帧数等待下次计算之前\n    local: false, // 是使用目标世界还是地方位置\n    stride: 0.001, // 上一个和当前点之间的最小距离\n  })\n  const n = 1000\n  const [o] = React.useState(() => new THREE.Object3D())\n  useFrame(({ clock }) => {\n    if (!instancesRef.current) return\n\n    for (let i = 0; i < n; i += 1) {\n      const x = trailPositions.current?.slice(i * 3, i * 3 + 3)\n      o.position.set(...x)\n\n      o.scale.setScalar((i * 10) / n)\n      o.updateMatrixWorld()\n\n      instancesRef.current.setMatrixAt(i, o.matrixWorld)\n    }\n\n    instancesRef.current.count = n\n    instancesRef.current.instanceMatrix.needsUpdate = true\n\n  })\n  useFrame(({ clock }) => {\n    const t = clock.getElapsedTime()\n\n    sphere.position.x = Math.sin(t) * 3 + Math.cos(t * 2)\n    sphere.position.y = Math.cos(t) * 3\n\n  })\n  return (\n    <>\n      <Sphere ref={setSphere} args={[0.1, 32, 32]} position-x={0} position-y={3}>\n        <meshNormalMaterial />\n      </Sphere>\n\n      <instancedMesh ref={instancesRef} args={[null, null, n]}>\n        {/* 轨迹物体 */}\n        <boxGeometry args={[0.1, 0.1, 0.1]} />\n        <meshNormalMaterial />\n      </instancedMesh>\n    </>\n  )\n} ",
+              "children": []
+            },
+            {
+              "id": 132,
+              "parentId": 4,
+              "label": "采样器",
+              "value": "//自定义变换函数\nconst transform = ({ position, normal, dummy: object }) => {\n  object.scale.setScalar(Math.random() * 0.0075)\n  object.position.copy(position)\n  object.lookAt(normal.add(position))\n  object.rotation.y += Math.random() - 0.5 * (Math.PI * 0.5)\n  object.rotation.x += Math.random() - 0.5 * (Math.PI * 0.5)\n  object.rotation.z += Math.random() - 0.5 * (Math.PI * 0.5)\n  object.updateMatrix()\n  return object\n}\n\n\n<Sampler ref={instances}\n        transform={(props) => {//!在给定样本的情况下转换每个实例的函数。 \n          const object = transform(props) //调用自定义变换函数\n          const n = Perlin.simplex3(...props.position.clone().multiplyScalar(5).toArray())\n          object.scale.setScalar(THREE.MathUtils.mapLinear(n, -1, 1, 0.3, 1) * scale)\n          return object\n        }}\n        rotation={[-Math.PI / 2, 0, 0]}\n        mesh={plane} //!物体的ref钩子\n        instances={meshRef1}//!instancedMesh的钩子\n        weight={'density'} //用作采样权重的属性名称normal,Attribute name\n        count={4000} //样品数量\n        scale={2}\n      />",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 130,
+              "parentId": 4,
+              "label": "贴花",
+              "value": "  import {  Decal } from '@react-three/drei'\n      \n        <mesh>\n            <sphereGeometry />\n            <Decal //贴花\n              debug //  \n              position={[0.5, 1.3, 0.6]} //贴花位置\n              rotation={0}\n              scale={1.25}\n              roughness={0.5}\n            >\n              <meshBasicMaterial\n                // transparent\n                polygonOffset //多边形偏移开关\n                polygonOffsetFactor={-100}//多边形偏移系数\n                side={THREE.DoubleSide}\n                toneMapped={false}>\n                  {/* //Ball map */}\n                <Ball />\n              </meshBasicMaterial>\n            </Decal>\n          </mesh>\n       //示例https://codesandbox.io/s/qvb1vk?file=/src/App.js",
+              "children": []
+            },
+            {
+              "id": 131,
+              "parentId": 4,
+              "label": "svg",
+              "value": " <Svg\n        src={'篮球.svg'} //路径\n        // {...props}\n        position={[0, 0, 0]}\n        scale={0.025}\n        fillMaterial={{ wireframe: false, color: '#2fff18' }} //填充\n        strokeMaterial={{ color: '#fc3428' }} //线\n      />",
+              "children": []
+            },
+            {
+              "id": 134,
+              "parentId": 4,
+              "label": "在曲线上移动(也可做简易弯曲修改器)",
+              "value": "import React, { useEffect, useRef } from 'react'\nimport { useFrame } from '@react-three/fiber'\nimport { CurveModifier } from '@react-three/drei'\nimport * as THREE from 'three'\n\nexport default function Test2 () {\n  const curveRef = useRef()\n\n  const curve = React.useMemo( //点构成的曲线\n    () => new THREE.CatmullRomCurve3([\n      new THREE.Vector3(10, 0, -10),\n      new THREE.Vector3(10, 0, 10),\n      new THREE.Vector3(-10, 0, 10),\n      new THREE.Vector3(-10, 0, -10)\n    ], true, 'centripetal'), [])\n\n  const line = React.useMemo(//曲线添加到环线LineLoop\n    () =>\n      new THREE.LineLoop(\n        new THREE.BufferGeometry().setFromPoints(curve.getPoints(50)), //buffer\n        new THREE.LineBasicMaterial({ color: 0x00ff00 })),//材质\n    []\n  )\n\n  useFrame(() => { //在曲线上移动的动画\n    if (curveRef.current) {\n      curveRef.current?.moveAlongCurve(0.001)//移动速度\n    }\n  })\n\n  return (\n    <>\n\n      <CurveModifier ref={curveRef}\n        curve={curve} //曲线路径\n      >\n        <mesh>\n          <boxGeometry args={[1, 1]} />\n        </mesh>\n      </CurveModifier>\n      {/* //显示曲线 */}\n      <primitive object={line} />\n    </>\n  )\n}",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 140,
+              "parentId": 4,
+              "label": "Html",
+              "value": "<Html\n        className='text-teal-900 absolute bg-yellow-300 whitespace-normal overflow-hidden w-32 rounded-2xl'\n        as='div' // 包装元素 (default: 'div')\n        prepend // 画布背后的项目内容 (default: false)\n        center // 添加-50％/-50％CSS变换 (default: false) [ignored in transform mode]\n        // fullscreen // 对齐到左上角，填充屏幕 (default:false) [ignored in transform mode]\n        distanceFactor={2} // 缩放\n        zIndexRange={[100, 0]} // Z阶范围 (default=[16777271, 0])\n        // portal={domnodeRef} // 引用目标容器(default=undefined)\n        transform // 如果为true，则应用MATRIX3D转换(default=false)\n        sprite // true始终面对相机\n        // occlude={ [ sphere, cube ] } //遮挡会隐藏，遮挡物的ref\n        onOcclude={(visible) => console.log(visible)} // 可见性发生变化时回调 (default: undefined)\n      // {...groupProps} // All THREE.Group props are valid\n      // {...divProps} // All HTMLDivElement props are valid\n      >\n        That's a sphere 👍\n        <h1>hello</h1>\n        <p>world</p>\n      </Html>",
+              "children": []
+            },
+            {
+              "id": 165,
+              "parentId": 4,
+              "label": "云",
+              "value": "<Cloud\n        name={'cloud'}\n        position={[10, 4, 19]}\n        color={new THREE.Color('rgb(0, 0, 55)')}\n        opacity={state}\n        speed={2.4} // Rotation speed\n        width={0.5} // Width of the full cloud\n        depth={0.1} // Z-dir depth\n        segments={50} // Number of particles\n      />",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 166,
+              "parentId": 4,
+              "label": "萤火虫",
+              "value": "<Sparkles\n        color='lightpink'\n        count={1000} //默认100\n        speed={1}\n        opacity={1}\n        size={2}\n        scale={4}\n      // noise={number} //number | [number, number, number] | THREE.Vector3 | Float32Array\n      />",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 173,
+              "parentId": 4,
+              "label": "进度条",
+              "value": " <Loader //load加载器\n      // containerStyles={...container} // Flex布局样式\n      // innerStyles={...inner} // 内部容器样式\n      // barStyles={...bar} // 装载型式风格\n      // dataStyles={...data} // 文字样式\n      // dataInterpolation={(p) => `Loading ${p.toFixed(2)}%`} // 文本\n      // initialState={(active) => active} // 最初的黑色状态\n      />",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 187,
+              "parentId": 4,
+              "label": "自定义进度条",
+              "value": "https://github.com/pmndrs/drei#useprogress",
+              "children": []
+            },
+            {
+              "id": 175,
+              "parentId": 4,
+              "label": "SSGI全局光照",
+              "value": "https://github.com/0beqz/realism-effects",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 180,
+              "parentId": 4,
+              "label": "角散_穿透玻璃在地面的影像",
+              "value": "    import { Caustics } from '@react-three/drei'\n    <Caustics //穿透玻璃在平面上的影像\n      color='hotpink' //光线颜色 默认白色\n      frames={Infinity} //渲染帧数,默认1\n      lightSource={[5, 5, -10]}//光源 默认5,5,5\n      worldRadius={0.01}//0.01-0.6 影像大小默认0.3125\n      ior={1.1} //1.01-1.2 影像形态 默认1.1\n      intensity={0.01} //亮度 默认0.05\n      debug //help助手\n      resolution={2048} //分辨率默认2048\n    >\n      <mesh  >\n      </mesh>\n    </Caustics>",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 182,
+              "parentId": 4,
+              "label": "useDetectGPU获取当前用户GPU型号等数据",
+              "value": "function Simple() {\n15  const { device, fps, gpu, isMobile, tier, type } = useDetectGPU()\n16  return (\n17    <Text maxWidth={200}>\n18      | device {device} fps {fps} | gpu {gpu} isMobile {isMobile?.toString()} | Tier {tier.toString()} Type {type} |\n19    </Text>\n20  )\n21}",
+              "children": [],
+              "resolveSyntax": true
+            },
+            {
+              "id": 183,
+              "parentId": 4,
+              "label": "将缩放比例调整到屏幕填满",
+              "value": "import React, { useEffect, useRef, useState } from 'react'\nimport { useFrame } from '@react-three/fiber'\nimport { useAspect } from '@react-three/drei'\nimport * as THREE from 'three'\n\nexport default function Test2 () {\n\n\n  //返回像素比用来缩放，来填满屏幕\n  const scale = useAspect(512, 512, 1)\n  console.log('scale:', scale)//返回[26.5584,26.5584,1]\n\n  return (\n    <>\n      <mesh  scale={scale}>\n        <planeGeometry args={[1, 1]} />\n        <meshStandardMaterial color={'#37ff21'} />\n      </mesh>\n    </>\n  )\n} ",
+              "children": []
+            },
+            {
+              "id": 184,
+              "parentId": 4,
+              "label": "接触物体鼠标样式变手指",
+              "value": "import React, { useState } from 'react'\nimport { useCursor } from '@react-three/drei'\n\nexport default function Test2 () {\n  const [hovered, setHover] = useState(false)\n\n  useCursor(hovered)\n  return (\n    <>\n      <mesh\n        onPointerOver={(e) => (e.stopPropagation(), setHover(true))}\n        onPointerOut={(e) => setHover(false)}>\n        <planeGeometry args={[1, 1]} />\n        <meshStandardMaterial color={'#37ff21'} />\n      </mesh>\n    </>\n  )\n} ",
+              "children": []
+            },
+            {
+              "id": 185,
+              "parentId": 4,
+              "label": "检测是否在屏幕范围内",
+              "value": "  //返回是否在屏幕范围内 object is visible true/false\n  const ref = useIntersect((visible) => console.log('object is visible', visible))\n  return (\n    <>\n      <mesh ref={ref} >",
+              "children": []
+            },
+            {
+              "id": 225,
+              "parentId": 4,
+              "label": "Hub右上角抬头显示",
+              "value": "import React, { useRef, useState } from \"react\"\nimport { useGLTF, Segments, Segment, Hud, OrthographicCamera } from \"@react-three/drei\"\nimport { useFrame, useThree } from '@react-three/fiber'\nimport * as THREE from 'three'\nexport function Test4 () {\n  const { camera, size } = useThree()\n\n  const mesh = useRef()\n  const [hover, set] = useState(null)\n\n\n  useFrame(() => {\n    // Spin mesh to the inverse of the default cameras matrix\n    const matrix = new THREE.Matrix4()\n    matrix.copy(camera.matrix).invert()\n    mesh.current.quaternion.setFromRotationMatrix(matrix)\n  })\n\n  return (\n    <>\n      <Hud renderPriority={1}>\n        <OrthographicCamera makeDefault position={[0, 0, 100]} />\n        {/* //!右上角显示物体 */}\n        <mesh\n          ref={mesh}\n          position={[size.width / 2 - 120, size.height / 2 - 120, 0]}\n          onPointerOut={(e) => set(null)}\n          onPointerMove={(e) => set(e.face.materialIndex)}>\n          {[...Array(6)].map((_, index) => (\n            <meshBasicMaterial attach={`material-${index}`} key={index} color={hover === index ? 'lightblue' : 'white'} />\n          ))}\n          <boxGeometry args={[80, 80, 80]} />\n        </mesh>\n      </Hud >\n    </>\n  )\n}\n",
+              "children": []
+            },
+            {
+              "id": 226,
+              "parentId": 4,
+              "label": "将一个Canvas拆分到页面不同位置",
+              "value": "https://codesandbox.io/s/bp6tmc",
+              "children": []
+            },
+            {
+              "id": 217,
+              "parentId": 4,
+              "label": "示例",
+              "folder": true,
+              "children": [
+                {
+                  "id": 218,
+                  "parentId": 217,
+                  "label": "草",
+                  "value": "https://codesandbox.io/s/grass-shader-5xho4?file=/src/Grass.js",
+                  "children": []
+                },
+                {
+                  "id": 221,
+                  "parentId": 217,
+                  "label": "离相机过远不显示",
+                  "value": "https://codesandbox.io/s/12nmp?file=/src/App.js",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 147,
+          "parentId": 2,
+          "label": "Hook",
+          "folder": true,
+          "children": []
+        },
+        {
+          "id": 154,
+          "parentId": 2,
+          "label": "useMemo",
+          "value": "  let count = 300\n\n  const cubesTranfrom = useMemo(() => {\n    const positions = []\n    const rotations = []\n    const scales = []\n\n    for (let i = 0; i < count; i++) {\n      positions.push([(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 100, 0])\n      rotations.push([0, 0, 0])\n      scales.push([1, 1, 1])\n\n    }\n    return { positions, rotations, scales }\n  }, [])",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "parentId": 1,
+      "label": "glsl",
+      "folder": true,
+      "children": [
+        {
+          "id": 31,
+          "parentId": 30,
+          "label": "颜色渐变节点",
+          "value": "// COLOR_RAMP ------------------------------------------------\n\n/* ** ColorStop Point data structure for the COLOR_RAMP macro \ncolor -> the color of the color stop\nposition -> position of the color stop on the color ramp -> [0, 1]\n*/\nstruct ColorStop {\n    vec3 color;\n    float position;\n};\n\n/* ** COLOR_RAMP macro -> based on Blender's ColorRamp Node in the shading tab\nColorStop[?] colors -> array of color stops that can have any length\nfloat factor -> the position that you want to know the color of -> [0, 1]\nvec3 finalColor -> the final color based on the factor \n*/\n#define COLOR_RAMP(colors, factor, finalColor) { \\\n    int index = 0; \\\n    for(int i = 0; i < colors.length() - 1; i++){ \\\n       ColorStop currentColor = colors[i]; \\\n       bool isInBetween = currentColor.position <= factor; \\\n       index = isInBetween ? i : index; \\\n    } \\\n    ColorStop currentColor = colors[index]; \\\n    ColorStop nextColor = colors[index + 1]; \\\n    float range = nextColor.position - currentColor.position; \\\n    float lerpFactor = (factor - currentColor.position) / range; \\\n    finalColor = mix(currentColor.color, nextColor.color, lerpFactor); \\\n} \\\n\n// ------------------------------------------------",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
